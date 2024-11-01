@@ -9,12 +9,15 @@ public class SeleniumTest {
         try {
             // Set Chrome options for the remote session
             ChromeOptions options = new ChromeOptions();
+            options.addArguments("--headless"); // Optional: Run in headless mode
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-dev-shm-usage");
 
             // Connect to the Selenium Hub
             WebDriver driver = new RemoteWebDriver(new URL("http://192.168.68.128:4444/wd/hub"), options);
 
             // Run a simple test
-            driver.get("https://www.Google.com");
+            driver.get("https://www.google.com");
             System.out.println("Page title is: " + driver.getTitle());
 
             // Close the browser
