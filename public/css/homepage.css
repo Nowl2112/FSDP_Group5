@@ -41,6 +41,37 @@ nav a:hover::after {
     left: 0;
 }
 
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+nav ul li {
+    flex: 1;
+    text-align: center;
+}
+
+nav ul li:first-child {
+    text-align: center;
+    padding-right: 2rem;
+}
+
+nav ul li:last-child {
+    text-align: center;
+    padding-left: 2rem;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    display: block;
+}
+
 .header {
     background-color: #6495ED;
     color: white;
