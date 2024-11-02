@@ -6,7 +6,7 @@ async function login()
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-    const res = await fetch("/user",
+    const res = await fetch("/user/login",
         {
             method:'POST',
             headers:
@@ -23,6 +23,14 @@ async function login()
     .then(res =>
         {
             res.json()
+            if(res.ok)
+            {
+                window.location.href = "homepage.html"
+            }
+            else
+            {
+                window.alert("Incorrect credentials");
+            }
         }
     )
 }

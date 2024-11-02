@@ -11,9 +11,12 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.3",
+    "child": "^0.0.3",
+    "child_process": "^1.0.2",
     "express": "^4.21.1",
     "joi": "^17.13.3",
     "mongoose": "^8.7.3",
-    "mssql": "^11.0.1"
+    "mssql": "^11.0.1",
+    "process": "^0.11.10"
   }
 }

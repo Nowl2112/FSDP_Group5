@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.example.AppTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 6.594 s <<< FAILURE! -- in com.example.AppTest
-com.example.AppTest.testGithubPage -- Time elapsed: 4.572 s <<< FAILURE!
+Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 4.049 s <<< FAILURE! -- in com.example.AppTest
+com.example.AppTest.testGithubPage -- Time elapsed: 3.837 s <<< FAILURE!
 org.opentest4j.AssertionFailedError: expected: <GitHub> but was: <GitHub · Build and ship software on a single, collaborative platform · GitHub>
 	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
 	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
