@@ -11,34 +11,7 @@ const getAllUser = async(req,res)=>
         {
             console.log(err);
         })
-    
-
-    // try
-    // {
-    //     const user = await User.getAllUser();
-    //     res.json(user);
-    // }
-    // catch(error)
-    // {
-    //     console.error(error);
-    //     res.status(500).send("Error retrieving Users")
-    // }
 }
-
-// const createUser = async(req,res)=>
-// {
-//     const newUser = req.body
-//     try
-//     {
-//         const createdUser = await User.createUser(newUser);
-//         res.status(201).send("User successfully created");
-//     }
-//     catch(error)
-//         {
-//             console.error(error);
-//             res.status(500).send("Error creating User");
-//         }
-// };
 
 const createUser = async(req,res)=>
 {
@@ -60,10 +33,28 @@ const createUser = async(req,res)=>
     })
 }
 
+const loginUser = async(req,res)=>
+{
+    try
+    {
+        const user = await User.findOne({ email: req.body.email });
+        if(user.password == req.body.password)
+        {
+            res.status(201).send(user);
+            return true;
+        }
+    }
+    catch(err)
+    {
+        console.error(err);
+    }
+}
+
 
 module.exports =
 {
     getAllUser,
     createUser,
+    loginUser,
 }
 

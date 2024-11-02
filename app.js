@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const sql = require("mssql");
 const mongoose = require("mongoose");
 const dbConfig = require("./dbConfig");
+const { exec } = require("child_process")
 const userController = require("./controllers/userController");
 const dbURI = "mongodb+srv://Chimken:FMGSOzqLy1SegpFI@fsdpassignment.p4h2x.mongodb.net/"
 
@@ -17,7 +18,25 @@ app.use(express.static('public'));
 //User
 app.get("/user",userController.getAllUser);
 app.post("/user",userController.createUser);
+app.post("/user/login", userController.loginUser);
+app.post("/run-tests", (req, res) => {
+  exec("mvn test", (error, stdout, stderr) => {
+      // Create response object
+      const response = {
+          success: !error,
+          output: stdout,
+          error: null
+      };
 
+      // If there's an error or stderr, add it to response
+      if (error || stderr) {
+          response.error = error ? error.message : stderr;
+      }
+
+      // Send response with appropriate status code
+      res.status(error ? 500 : 200).json(response);
+  });
+});
 
 // Start the server and connect to the database
 app.listen(port, async () => {
@@ -39,5 +58,10 @@ app.listen(port, async () => {
     process.exit(0);
   });
    
+
+
+
+
+
 
 
