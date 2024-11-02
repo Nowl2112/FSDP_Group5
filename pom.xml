@@ -52,6 +52,7 @@
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
+
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
           <version>3.4.0</version>
@@ -67,7 +68,15 @@
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.3.0</version>
+          <version>3.3.1</version>
+          <configuration>
+                <properties>
+                    <!-- <threadCount>2</threadCount> -->
+                    <configurationParameters>
+                        junit.jupiter.execution.parallel.enabled = true
+                    </configurationParameters>
+                </properties>
+            </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
