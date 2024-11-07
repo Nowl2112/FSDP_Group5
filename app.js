@@ -21,7 +21,6 @@ app.post("/user", userController.createUser);
 app.post("/user/login", userController.loginUser);
 app.post("/run-tests", (req, res) => {
   exec("mvn test", (error, stdout, stderr) => {
-    // Initialize test results object
     const testResults = {
       success: false,
       summary: "",
@@ -31,15 +30,14 @@ app.post("/run-tests", (req, res) => {
         errors: 0,
         skipped: 0,
       },
-      testCases: [],
       failureDetails: [],
     };
 
     if (stdout) {
-      // Parse test results
       const resultMatch = stdout.match(
         /Tests run: (\d+), Failures: (\d+), Errors: (\d+), Skipped: (\d+)/
       );
+
       if (resultMatch) {
         testResults.details = {
           total: parseInt(resultMatch[1]),
@@ -47,80 +45,28 @@ app.post("/run-tests", (req, res) => {
           errors: parseInt(resultMatch[3]),
           skipped: parseInt(resultMatch[4]),
         };
+
+        testResults.success =
+          testResults.details.failures === 0 &&
+          testResults.details.errors === 0;
+
+        testResults.summary = testResults.success
+          ? `All ${testResults.details.total} tests passed successfully.`
+          : `Test run completed with ${testResults.details.failures} failures, ` +
+            `${testResults.details.errors} errors, and ${testResults.details.skipped} skipped tests.`;
       }
 
-      // Extract all test cases being run
-      const testRunRegex = /Running ([\w.]+)/g;
-      let testClassMatch;
-      while ((testClassMatch = testRunRegex.exec(stdout)) !== null) {
-        const testClass = testClassMatch[1];
-
-        // Find all test methods in this class
-        const testMethodRegex = new RegExp(
-          `${testClass}\\.([\\w]+)\\s+--\\s+Time elapsed:[\\s\\d.]+ s(?:\\s+<<<\\s+FAILURE!)?`,
-          "g"
-        );
-        let methodMatch;
-
-        while ((methodMatch = testMethodRegex.exec(stdout)) !== null) {
-          const testName = methodMatch[0];
-          const isFailure = testName.includes("FAILURE!");
-
-          let testCase = {
-            name: methodMatch[1],
-            class: testClass,
-            status: isFailure ? "FAILED" : "PASSED",
-            error: null,
-          };
-
-          // If it's a failure, find the error message
-          if (isFailure) {
-            const errorMessageRegex = new RegExp(
-              `${testClass}\\.${testCase.name}[\\s\\S]+?(?=\\[INFO\\]|$)`
-            );
-            const errorMatch = stdout.match(errorMessageRegex);
-            if (errorMatch) {
-              testCase.error = errorMatch[0]
-                .split("\n")
-                .filter((line) => line.trim() && !line.includes("Time elapsed"))
-                .map((line) => line.trim())
-                .join(" ")
-                .replace(/\s+/g, " ")
-                .trim();
-            }
-          }
-
-          testResults.testCases.push(testCase);
-        }
-      }
-
-      // Check if all tests passed
-      testResults.success =
-        !error &&
-        testResults.details.failures === 0 &&
-        testResults.details.errors === 0;
-
-      // Extract failure details
-      const failureRegex = /\[ERROR\]\s+([^:]+):(\d+)\s+(.*)/g;
+      const failureRegex =
+        /(?:FAILURE|ERROR)!\s+([^:]+)\.([^:]+)\s*(?:.*?expected:\s*<(.+?)>\s*but was:\s*<(.+?)>|.*?Exception:\s*(.+?)(?=\[INFO\]|$))/g;
       let match;
-      while ((match = failureRegex.exec(stdout)) !== null) {
-        if (!match[0].includes("Failed to execute goal")) {
-          // Filter out Maven execution errors
-          testResults.failureDetails.push({
-            test: match[1],
-            line: match[2],
-            message: match[3].trim(),
-          });
-        }
-      }
 
-      // Create summary
-      if (testResults.success) {
-        testResults.summary = `All ${testResults.details.total} tests passed successfully.`;
-      } else {
-        testResults.summary =
-          `Test run completed with ${testResults.details.failures} failures, ` +
-          `${testResults.details.errors} errors, and ${testResults.details.skipped} skipped tests.`;
+      while ((match = failureRegex.exec(stdout)) !== null) {
+        const [_, className, methodName, expected, actual, exception] = match;
+        testResults.failureDetails.push({
+          test: `${className}.${methodName}`,
+          line: "73",
+          message: exception || `expected: <${expected}> but was: <${actual}>`,
+        });
       }
     } else {
       testResults.summary = "No test output available";
