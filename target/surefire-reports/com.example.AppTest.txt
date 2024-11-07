@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.example.AppTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 5.525 s <<< FAILURE! -- in com.example.AppTest
-com.example.AppTest.testGithubPage -- Time elapsed: 5.379 s <<< FAILURE!
+Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 5.732 s <<< FAILURE! -- in com.example.AppTest
+com.example.AppTest.testGithubPage -- Time elapsed: 5.517 s <<< FAILURE!
 org.opentest4j.AssertionFailedError: expected: <GitHub> but was: <GitHub · Build and ship software on a single, collaborative platform · GitHub>
 	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
 	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
@@ -12,12 +12,6 @@ org.opentest4j.AssertionFailedError: expected: <GitHub> but was: <GitHub · Buil
 	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
 	at com.example.AppTest.testGithubPage(AppTest.java:73)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
-	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:507)
-	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.tryRemoveAndExec(ForkJoinPool.java:1499)
-	at java.base/java.util.concurrent.ForkJoinPool.helpJoin(ForkJoinPool.java:2272)
-	at java.base/java.util.concurrent.ForkJoinTask.awaitDone(ForkJoinTask.java:495)
-	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:662)
 	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
 	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:507)
 	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1458)
