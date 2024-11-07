@@ -1,47 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,700italic,400italic' rel='stylesheet' type='text/css'>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/homepage.css">
-
-    <title>Cross-Platform Browser Automation</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat:400,700"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,700italic,400italic"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/homepage.css" />
+    <title>AutoTestHub</title>
+  </head>
+  <body>
     <nav>
-        <ul>
-            <li><a href="#">HOME</a></li>
-            <li><a href="#">SUPPORT</a></li>
-        </ul>
+      <ul>
+        <li><img src="/images/ocbc-logo.png" alt="OCBC Logo" /></li>
+      </ul>
     </nav>
 
+    <header class="header">
+      <h1>AutoTestHub</h1>
+    </header>
 
-    <div class="header">
-        <h1>Cross-Platform Browser Automation</h1>
-    </div>
+    <section class="welcome-section">
+      <h1>Welcome</h1>
+      <div class="user-name">{User Name}</div>
+    </section>
 
-    <div class="welcome-section">
-        <h1>Welcome</h1>
-        <div class="user-name">{User Name}</div>
-    </div>
+    <section class="cards-container">
+      <div class="card">
+        <div class="card-icon">↑</div>
+        <h2>Upload Application</h2>
+        <button class="btn" id="upload_button">Upload</button>
+      </div>
 
-    <div class="cards-container">
-        <div class="card">
-            <div class="card-icon">↑</div>
-            <h2>Upload Application</h2>
-            <button class="btn" id = "upload_button">Upload</button>
-        </div>
+      <div class="card">
+        <div class="card-icon">👁</div>
+        <h2>View Previous Test Results</h2>
+        <button class="btn">View</button>
+      </div>
+    </section>
 
-        <div class="card">
-            <div class="card-icon">👁</div>
-            <h2>View Previous Test Results</h2>
-            <button class="btn">View</button>
-        </div>
-    </div>
-    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script> -->
-  <script src="js/homepage.js"></script>
-</body>
+    <script src="js/homepage.js"></script>
+  </body>
 </html>

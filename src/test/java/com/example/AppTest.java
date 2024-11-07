@@ -32,7 +32,7 @@ public class AppTest {
     public void setUp() {
         // Specify the path to ChromeDriver
 
-        System.setProperty("webdriver.chrome.driver", "C:\\Ngee ann poly\\Year 2 sem 2\\FSDP\\chrome_driver\\chromedriver-win32\\chromedriver-win32\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\baoxu\\Downloads\\chrome_driver\\chrome_driver\\chromedriver-win32\\chromedriver-win32\\chromedriver.exe");
         
         ChromeOptions options = new ChromeOptions(); 
         options.addArguments("--headless"); 
