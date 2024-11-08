@@ -1,32 +1,45 @@
 
+//Handle running test
+async function runTest(content, nameOfFile)
+{
+    try
+    {
+        const response = await fetch("/upload",
+            {
+                method : 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content: content, name: nameOfFile})
+                
+            }
+        );
+
+        const result = await response.json();
+        console.log(result);
+    }
+    catch(err)
+    {
+        console.error(err);
+    }
+}
 
 const dropZone = document.getElementById('dropZone');
 const fileInput = document.getElementById('fileInput');
 const fileName = document.getElementById('fileName');
-
+const testButton = document.getElementById('test-btn');
+var fileName2;
+var content2;
 // Handle file selection
 fileInput.addEventListener('change', function(e) {
     if (this.files && this.files[0]) {
         fileName.textContent = `Selected file: ${this.files[0].name}`;
-        console.log(this.files)
+        const nameOfFile = this.files[0].name
+        fileName2 = nameOfFile;
         const reader = new FileReader();
             reader.onload = async function(event) {
                 const content = event.target.result;
-                console.log("Java File Content:", content);  // Log the file content
-
-                // const response = await fetch('/read-file', {
-                //     method: 'POST',
-                //     headers: {
-                //         'Content-Type': 'application/json'
-                //     },
-                //     body: JSON.stringify({ content: content })
-                // });
-
-                // const result = await response.json();
-                // document.getElementById('result').textContent = result.content;
+                content2 = content;
             };
             reader.readAsText(this.files[0]);
-
 
     }
 });
@@ -60,6 +73,14 @@ dropZone.addEventListener('click', function(e) {
     }
 });
 
+testButton.addEventListener('click', function(e) {
+    
+    e.preventDefault();
+    runTest(content2,fileName2);
+    fileInput.value = '';
+    fileName.textContent = '';
+
+});
 
 
 

@@ -1,12 +1,16 @@
-const express = require("express");
+const express = require('express');
 const bodyParser = require("body-parser");
 const sql = require("mssql");
 const mongoose = require("mongoose");
 const dbConfig = require("./dbConfig");
-const { exec } = require("child_process");
+const { exec } = require("child_process")
+const fileUpload = require('express-fileupload'); 
+const fs = require('fs');
+ const path = require('path');
 const userController = require("./controllers/userController");
-const dbURI =
-  "mongodb+srv://Chimken:FMGSOzqLy1SegpFI@fsdpassignment.p4h2x.mongodb.net/";
+const dbURI = "mongodb+srv://Chimken:FMGSOzqLy1SegpFI@fsdpassignment.p4h2x.mongodb.net/"
+
+
 
 const app = express();
 const port = 3000;
@@ -75,6 +79,90 @@ app.post("/run-tests", (req, res) => {
     res.json(testResults);
   });
 });
+
+app.post('/upload', (req,res)=>
+  {
+    const fileContent = req.body.content;
+    const fileName = req.body.name;
+    // console.log(fileName)
+    const targetPath = path.join(__dirname, `src\\test\\java\\com\\example\\${fileName}`);
+
+    console.log(targetPath)
+    fs.writeFile(targetPath,fileContent, (err)=>
+    {
+      if(err)
+      {
+        { return res.status(500).json({ message: 'Error writing file.'})}
+      }
+      // res.status(200).json({ message: 'File content successfully replaced in AppRest.java!' });
+    });
+
+    exec("mvn test", (error, stdout, stderr) => {
+      const testResults = {
+        success: false,
+        summary: "",
+        details: {
+          total: 0,
+          failures: 0,
+          errors: 0,
+          skipped: 0,
+        },
+        failureDetails: [],
+      };
+  
+      if (stdout) {
+        const resultMatch = stdout.match(
+          /Tests run: (\d+), Failures: (\d+), Errors: (\d+), Skipped: (\d+)/
+        );
+  
+        if (resultMatch) {
+          testResults.details = {
+            total: parseInt(resultMatch[1]),
+            failures: parseInt(resultMatch[2]),
+            errors: parseInt(resultMatch[3]),
+            skipped: parseInt(resultMatch[4]),
+          };
+  
+          testResults.success =
+            testResults.details.failures === 0 &&
+            testResults.details.errors === 0;
+  
+          testResults.summary = testResults.success
+            ? `All ${testResults.details.total} tests passed successfully.`
+            : `Test run completed with ${testResults.details.failures} failures, ` +
+              `${testResults.details.errors} errors, and ${testResults.details.skipped} skipped tests.`;
+        }
+  
+        const failureRegex =
+          /(?:FAILURE|ERROR)!\s+([^:]+)\.([^:]+)\s*(?:.*?expected:\s*<(.+?)>\s*but was:\s*<(.+?)>|.*?Exception:\s*(.+?)(?=\[INFO\]|$))/g;
+        let match;
+  
+        while ((match = failureRegex.exec(stdout)) !== null) {
+          const [_, className, methodName, expected, actual, exception] = match;
+          testResults.failureDetails.push({
+            test: `${className}.${methodName}`,
+            line: "73",
+            message: exception || `expected: <${expected}> but was: <${actual}>`,
+          });
+        }
+      } else {
+        testResults.summary = "No test output available";
+      }
+  
+      res.json(testResults);
+
+      fs.unlink(targetPath, (err)=>
+      {
+        if(err)
+        {
+          console.error("Error deleting file: " , err)
+        }
+      })
+    });
+  }
+);
+
+
 // Start the server and connect to the database
 app.listen(port, async () => {
   try {
