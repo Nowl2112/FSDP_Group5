@@ -1,17 +1,3 @@
-// package com.example;
-// import static org.junit.jupiter.api.Assertions.assertEquals;
-
-// import org.junit.jupiter.api.AfterEach;
-// import org.junit.jupiter.api.BeforeEach;
-// import org.junit.jupiter.api.Test;
-// import org.junit.jupiter.api.parallel.Execution;
-// import org.junit.jupiter.api.parallel.ExecutionMode;
-// import org.openqa.selenium.WebDriver;
-// import org.openqa.selenium.chrome.ChromeDriver;
-// import org.openqa.selenium.chrome.ChromeOptions;
-// import org.openqa.selenium.support.ui.ExpectedConditions;
-// import org.openqa.selenium.support.ui.WebDriverWait;
-// import org.openqa.selenium.By;
 
 package com.example;
 
@@ -25,8 +11,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+
+//EIOFANSAFSJKLASKJL
 @Execution(ExecutionMode.CONCURRENT)
-public class AppTest {
+public class AppTest2 {
     private WebDriver driver;
     @BeforeEach
     public void setUp() {
@@ -64,19 +52,19 @@ public class AppTest {
             System.err.println("Exception during test execution : " + e.getMessage());
         }
     }
-    @Test // Fail
-    public void testGithubPage() {
-        try
-        {
-            driver.get("https://www.github.com");
-            String title = driver.getTitle();
-            assertEquals("GitHub", title);
-        }
-        catch(Exception e)
-        {
-            System.err.println("Exception during test execution : " + e.getMessage());
-        }
-    }
+    // @Test // Fail
+    // public void testGithubPage() {
+    //     try
+    //     {
+    //         driver.get("https://www.github.com");
+    //         String title = driver.getTitle();
+    //         assertEquals("GitHub", title);
+    //     }
+    //     catch(Exception e)
+    //     {
+    //         System.err.println("Exception during test execution : " + e.getMessage());
+    //     }
+    // }
 
 
     @AfterEach

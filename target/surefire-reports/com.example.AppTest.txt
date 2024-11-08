@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.example.AppTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 4.049 s <<< FAILURE! -- in com.example.AppTest
-com.example.AppTest.testGithubPage -- Time elapsed: 3.837 s <<< FAILURE!
+Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 3.478 s <<< FAILURE! -- in com.example.AppTest
+com.example.AppTest.testGithubPage -- Time elapsed: 2.903 s <<< FAILURE!
 org.opentest4j.AssertionFailedError: expected: <GitHub> but was: <GitHub · Build and ship software on a single, collaborative platform · GitHub>
 	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
 	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
@@ -10,7 +10,7 @@ org.opentest4j.AssertionFailedError: expected: <GitHub> but was: <GitHub · Buil
 	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
 	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
 	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
-	at com.example.AppTest.testGithubPage(AppTest.java:73)
+	at com.example.AppTest.testGithubPage(AppTest.java:61)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
 	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
 	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:507)
