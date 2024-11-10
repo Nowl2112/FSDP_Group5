@@ -73,12 +73,18 @@ dropZone.addEventListener('click', function(e) {
     }
 });
 
+//Havnet fully test yet
 testButton.addEventListener('click', function(e) {
     
     e.preventDefault();
-    runTest(content2,fileName2);
+    if(content2 != '' && fileName2 != '')
+    {
+        runTest(content2,fileName2);
+    }
     fileInput.value = '';
     fileName.textContent = '';
+    content2 = '';
+    fileName2 = '';
 
 });
 

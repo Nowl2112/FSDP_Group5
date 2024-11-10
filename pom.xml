@@ -95,8 +95,15 @@
         <plugin>
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.6.1</version>
+           <configuration>
+              <outputDirectory>${project.build.directory}/surefire-reports</outputDirectory>
+              <showSuccess>true</showSuccess>
+            </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
   </build>
 </project>
+
+
+
