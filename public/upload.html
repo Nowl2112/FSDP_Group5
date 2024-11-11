@@ -23,7 +23,7 @@
   <body>
     <nav>
       <ul>
-        <li><a href="#">HOME</a></li>
+        <li><a href="homepage.html">HOME</a></li>
         <li><a href="#">SUPPORT</a></li>
       </ul>
     </nav>
@@ -52,12 +52,14 @@
             </svg>
           </div>
           <p>Drag and drop your file here or</p>
-          <button
-            class="upload-btn"
-            onclick="document.getElementById('fileInput').click()"
-          >
-            Choose File
-          </button>
+          <div id="test-button">
+            <button
+              class="upload-btn"
+              onclick="document.getElementById('fileInput').click()"
+            >
+              Choose File
+            </button>
+          </div>
           <div id="fileName" class="file-name"></div>
         </div>
         <button class="test-btn" id="test-btn">Test</button>

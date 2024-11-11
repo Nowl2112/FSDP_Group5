@@ -12,7 +12,7 @@ body {
 
 nav {
   width: 100%;
-  background-color: #333;
+  background-color: #e11837;
   color: #fff;
   display: flex;
   justify-content: center;
@@ -56,7 +56,7 @@ nav ul li a {
 }
 
 .upload-box {
-  border: 2px dashed #ccc;
+  border: 2px solid #616161;
   padding: 20px;
   width: 100%;
   text-align: center;
@@ -65,10 +65,11 @@ nav ul li a {
   flex-direction: column;
   align-items: center;
   transition: border-color 0.3s ease;
+  border-radius: 25px;
 }
 
 .upload-box:hover {
-  border-color: #007bff;
+  border-color: #be132d;
 }
 
 .upload-icon svg {
@@ -82,7 +83,7 @@ nav ul li a {
 }
 
 .upload-btn {
-  background-color: #007bff;
+  background-color: #e11837;
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -94,11 +95,11 @@ nav ul li a {
 }
 
 .upload-btn:hover {
-  background-color: #0056b3;
+  background-color: #be132d;
 }
 
 .test-btn {
-  background-color: #28a745;
+  background-color: #e11837;
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -110,7 +111,18 @@ nav ul li a {
 }
 
 .test-btn:hover {
-  background-color: #218838;
+  background-color: #be132d;
+}
+.upload-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.test-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .file-name {
