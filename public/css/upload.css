@@ -1,120 +1,175 @@
-/* upload.css */
-
-/* General styling for the page */
-body {
-  font-family: "Montserrat", sans-serif;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
 nav {
-  width: 100%;
-  background-color: #333;
-  color: #fff;
-  display: flex;
-  justify-content: center;
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+nav a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    position: relative;
+    padding: 0.5rem 1rem;
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: #6495ED;
+    transition: all 0.3s ease-in-out;
+}
+
+nav a:hover {
+    color: #6495ED;
+}
+
+nav a:hover::after {
+    width: 100%;
+    left: 0;
 }
 
 nav ul {
-  list-style: none;
-  display: flex;
-  padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 nav ul li {
-  margin: 0 15px;
+    flex: 1;
+    text-align: center;
+}
+
+nav ul li:first-child {
+    text-align: center;
+    padding-right: 2rem;
+}
+
+nav ul li:last-child {
+    text-align: center;
+    padding-left: 2rem;
 }
 
 nav ul li a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: 700;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    display: block;
 }
 
 .header {
-  text-align: center;
-  color: #333;
-  font-size: 2em;
-  margin: 20px 0;
+    background-color: #4a76d1;
+    color: white;
+    padding: 1.5rem;
+    text-align: center;
 }
 
 .container {
-  width: 90%;
-  max-width: 600px;
-  margin: auto;
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 0 1rem;
 }
 
-/* Specific styling for upload elements */
-.upload-section h2 {
-  text-align: center;
-  color: #333;
-  font-size: 1.8em;
-  margin-top: 20px;
+.upload-section {
+    text-align: center;
 }
 
 .upload-box {
-  border: 2px dashed #ccc;
-  padding: 20px;
-  width: 100%;
-  text-align: center;
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transition: border-color 0.3s ease;
+    border: 2px dashed #ccc;
+    padding: 2rem;
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: border-color 0.3s, background-color 0.3s;
 }
 
-.upload-box:hover {
-  border-color: #007bff;
+.upload-box.dragover {
+    border-color: #4a76d1;
+    background-color: #f0f4ff;
 }
 
-.upload-icon svg {
-  font-size: 3em;
-  color: #ccc;
-  margin-bottom: 10px;
+.upload-icon {
+    font-size: 5rem;
+    padding:1rem;
+    color: #666;
 }
 
 .file-input {
-  display: none;
+    display: none;
 }
 
 .upload-btn {
-  background-color: #007bff;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
-  font-size: 1em;
-  transition: background-color 0.3s ease;
-}
-
-.upload-btn:hover {
-  background-color: #0056b3;
+    background-color: #4a76d1;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-top: 1rem;
 }
 
 .test-btn {
-  background-color: #28a745;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 20px;
-  font-size: 1em;
-  transition: background-color 0.3s ease;
-}
-
-.test-btn:hover {
-  background-color: #218838;
+    background-color: #4a76d1;
+    color: white;
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 1rem;
+    width: 200px;
 }
 
 .file-name {
-  font-size: 0.9em;
-  color: #555;
-  margin-top: 10px;
+    margin-top: 1rem;
+    color: #666;
+    word-break: break-all;
+}
+
+button:hover {
+    background-color: #3a5fb0;
+}
+
+#lottie-upload {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%; /* Ensure the parent div takes the full height of its container */
+}
+
+.upload-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+@media (max-width: 600px) {
+    nav ul li:first-child,
+    nav ul li:last-child {
+        padding: 0;
+    }
+    
+    .container {
+        padding: 0 0.5rem;
+    }
 }
