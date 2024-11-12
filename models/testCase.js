@@ -1,27 +1,25 @@
-// models/testCase.js
 const mongoose = require("mongoose");
 
-const testCaseSchema = new mongoose.Schema({
-  userEmail: String,
-  fileName: String,
-  testResults: {
-    success: Boolean,
-    summary: String,
-    details: {
-      total: Number,
-      failures: Number,
-      errors: Number,
-      skipped: Number,
+const testCaseSchema = new mongoose.Schema(
+  {
+    userEmail: { type: String, required: true },
+    fileName: { type: String, required: true },
+    testResults: {
+      name: String,
+      tests: String,
+      failures: String,
+      errors: String,
+      skipped: String,
+      testcases: [
+        {
+          name: String,
+          status: String,
+          message: String,
+        },
+      ],
     },
-    failureDetails: [
-      {
-        test: String,
-        line: String,
-        message: String,
-      },
-    ],
   },
-  createdAt: { type: Date, default: Date.now },
-});
+  { timestamps: true }
+);
 
 module.exports = mongoose.model("TestCase", testCaseSchema);

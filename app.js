@@ -180,14 +180,14 @@ app.post("/upload", (req, res) => {
         const newTestCase = new TestCase({
           userEmail: userEmail,
           fileName: fileName,
-          testResults: result, // The parsed result from Surefire
+          testResults: result, // Save the full result object
         });
 
         newTestCase
           .save()
           .then((savedTestCase) => {
             console.log("Test results saved:", savedTestCase);
-            res.json(result);
+            res.json(result); // Respond with the saved result
           })
           .catch((err) => {
             console.error("Error saving test results to database:", err);
