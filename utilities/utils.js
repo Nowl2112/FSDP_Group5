@@ -27,6 +27,7 @@ const parseSurefireReports = (baseDir,fileName, callback) => {
         }
 
         const testsuite = result.testsuite;
+        // console.log(testsuite)
         const suiteResult = {
             name: testsuite.$.name,
             tests: testsuite.$.tests,
@@ -39,7 +40,8 @@ const parseSurefireReports = (baseDir,fileName, callback) => {
         testsuite.testcase.forEach(testcase => {
             const testResult = {
                 name: testcase.$.name,
-                status: 'passed'
+                status: 'passed',
+                time:  testcase.$.time
             };
 
             if (testcase.failure) {
