@@ -15,6 +15,7 @@ const testCaseSchema = new mongoose.Schema(
           name: String,
           status: String,
           message: String,
+          time: String,
         },
       ],
     },
