@@ -85,12 +85,9 @@ app.post("/upload", (req, res) => {
         newTestCase
           .save()
           .then((savedTestCase) => {
-<<<<<<< HEAD
             res.json(result);
-=======
             console.log("Test results saved:", savedTestCase);
             res.json(result); // Respond with the saved result
->>>>>>> c36aeba651e0a37d8be017f977888f19da9b10ae
           })
           .catch((err) => {
             console.error("Error saving test results to database:", err);
