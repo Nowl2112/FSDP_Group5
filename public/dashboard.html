@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Case Dashboard</title>
+    <link rel="stylesheet" href="css/dashboard.css" />
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <div class="navbar">
+      <img src="/images/ocbc-logo.png" alt="Logo" class="logo" />
+      <!-- Replace with actual logo image path -->
+      <a href="homepage.html">Home</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="upload.html">Upload</a>
+    </div>
+
+    <div class="dashboard-container">
+      <div class="sidebar">
+        <h2>Test Cases</h2>
+        <input type="text" id="search-bar" placeholder="Search by file name" />
+        <ul id="test-case-list"></ul>
+      </div>
+      <div class="content">
+        <h2>Test Case Details</h2>
+        <div id="test-case-details">
+          <p>Select a test case to view details.</p>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+  </body>
+</html>

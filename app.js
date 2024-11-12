@@ -32,12 +32,10 @@ app.post("/run-tests", (req, res) => {
     const fileName = `TEST-com.example.${name}`; // Replace with the actual file pattern as needed
     utils.parseSurefireReports(__dirname, fileName, (err, result) => {
       if (err) {
-        return res
-          .status(500)
-          .json({
-            message: "Failed to parse test results",
-            error: err.message,
-          });
+        return res.status(500).json({
+          message: "Failed to parse test results",
+          error: err.message,
+        });
       }
 
       res.json(result);
@@ -81,13 +79,18 @@ app.post("/upload", (req, res) => {
         const newTestCase = new TestCase({
           userEmail: userEmail,
           fileName: fileName,
-          testResults: result, // The parsed result from Surefire
+          testResults: result, // Save the full result object
         });
 
         newTestCase
           .save()
           .then((savedTestCase) => {
+<<<<<<< HEAD
             res.json(result);
+=======
+            console.log("Test results saved:", savedTestCase);
+            res.json(result); // Respond with the saved result
+>>>>>>> c36aeba651e0a37d8be017f977888f19da9b10ae
           })
           .catch((err) => {
             console.error("Error saving test results to database:", err);
@@ -105,6 +108,15 @@ app.post("/upload", (req, res) => {
       });
     });
   });
+});
+
+app.get("/test-cases", async (req, res) => {
+  try {
+    const testCases = await TestCase.find().sort({ createdAt: -1 }); // Sorting by most recent
+    res.json(testCases);
+  } catch (error) {
+    res.status(500).json({ message: "Error retrieving test cases", error });
+  }
 });
 
 // Start the server and connect to the database
