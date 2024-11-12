@@ -14,7 +14,7 @@ async function fetchTestCases() {
   });
 }
 
-// Display the selected test case details
+// Display the selected test case details with a dropdown for failure details
 function displayTestCaseDetails(testCase) {
   const detailsContainer = document.getElementById("test-case-details");
 
@@ -37,10 +37,24 @@ function displayTestCaseDetails(testCase) {
   const statsElem = document.createElement("p");
   statsElem.textContent = `Tests: ${testCase.testResults.tests}, Failures: ${testCase.testResults.failures}, Errors: ${testCase.testResults.errors}, Skipped: ${testCase.testResults.skipped}`;
 
-  // Display failure details if present
+  // Create a button for toggling failure details visibility
+  const toggleFailuresButton = document.createElement("button");
+  toggleFailuresButton.textContent = "Show Failure Details";
+  toggleFailuresButton.onclick = () => {
+    const failureDetailsElem = document.getElementById(
+      `failure-details-${testCase._id}`
+    );
+    failureDetailsElem.style.display =
+      failureDetailsElem.style.display === "none" ? "block" : "none";
+  };
+
+  // Create the failure details container (initially hidden)
   const failureDetailsElem = document.createElement("ul");
+  failureDetailsElem.id = `failure-details-${testCase._id}`;
+  failureDetailsElem.style.display = "none"; // Hide initially
   failureDetailsElem.textContent = "Failure Details:";
 
+  // Add failure details from the test case
   if (
     testCase.testResults?.testcases &&
     testCase.testResults.testcases.length > 0
@@ -66,6 +80,7 @@ function displayTestCaseDetails(testCase) {
   detailsContainer.appendChild(fileNameElem);
   detailsContainer.appendChild(summaryElem);
   detailsContainer.appendChild(statsElem);
+  detailsContainer.appendChild(toggleFailuresButton);
   detailsContainer.appendChild(failureDetailsElem);
 }
 
