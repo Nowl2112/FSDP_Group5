@@ -1,7 +1,9 @@
+let testCases = []; // Declare testCases globally
+
 // Fetch test cases and populate the list
 async function fetchTestCases() {
   const response = await fetch("/test-cases");
-  const testCases = await response.json();
+  testCases = await response.json(); // Assign fetched data to the global testCases array
 
   const testCaseList = document.getElementById("test-case-list");
   testCaseList.innerHTML = "";
@@ -14,7 +16,7 @@ async function fetchTestCases() {
   });
 }
 
-// Display the selected test case details
+// Display the selected test case details with a dropdown for general details
 function displayTestCaseDetails(testCase) {
   const detailsContainer = document.getElementById("test-case-details");
 
@@ -23,42 +25,79 @@ function displayTestCaseDetails(testCase) {
 
   // Create elements for each detail you want to display
   const emailElem = document.createElement("p");
-  emailElem.textContent = `User Email: ${testCase.userEmail}`;
+  emailElem.innerHTML = `<strong>User Email:</strong> ${testCase.userEmail}`;
 
   const fileNameElem = document.createElement("p");
-  fileNameElem.textContent = `File Name: ${testCase.fileName}`;
+  fileNameElem.innerHTML = `<strong>File Name:</strong> ${testCase.fileName}`;
 
   const summaryElem = document.createElement("p");
-  summaryElem.textContent = `Summary: ${
+  summaryElem.innerHTML = `<strong>Summary:</strong> ${
     testCase.testResults?.name || "No summary available"
   }`;
 
   // Display the number of tests, failures, errors, and skipped
   const statsElem = document.createElement("p");
-  statsElem.textContent = `Tests: ${testCase.testResults.tests}, Failures: ${testCase.testResults.failures}, Errors: ${testCase.testResults.errors}, Skipped: ${testCase.testResults.skipped}`;
+  statsElem.innerHTML = `<strong>Tests:</strong> ${testCase.testResults.tests}, <strong>Failures:</strong> ${testCase.testResults.failures}, <strong>Errors:</strong> ${testCase.testResults.errors}, <strong>Skipped:</strong> ${testCase.testResults.skipped}`;
 
-  // Display failure details if present
-  const failureDetailsElem = document.createElement("ul");
-  failureDetailsElem.textContent = "Failure Details:";
+  // Create a button for toggling details visibility
+  const toggleDetailsButton = document.createElement("button");
+  toggleDetailsButton.textContent = "Show Details";
+  toggleDetailsButton.onclick = () => {
+    const detailsElem = document.getElementById(`details-${testCase._id}`);
+    detailsElem.style.display =
+      detailsElem.style.display === "none" ? "block" : "none";
+  };
 
+  // Create the details container (initially hidden)
+  const detailsElem = document.createElement("ul");
+  detailsElem.id = `details-${testCase._id}`;
+  detailsElem.style.display = "none"; // Hide initially
+  detailsElem.innerHTML = "<strong>Test Details:</strong>";
+
+  // Add details from the test case
   if (
     testCase.testResults?.testcases &&
     testCase.testResults.testcases.length > 0
   ) {
     testCase.testResults.testcases.forEach((testCaseResult) => {
       const detailItem = document.createElement("li");
-      detailItem.textContent = `${testCaseResult.name}: ${testCaseResult.status}`;
+      detailItem.innerHTML = `<strong>${testCaseResult.name}:</strong> ${testCaseResult.status}`;
+
+      // Display time taken for each test case
+      const timeTakenElem = document.createElement("p");
+      timeTakenElem.innerHTML = `<strong>Time taken:</strong> ${
+        testCaseResult.time || "N/A"
+      }`;
+      timeTakenElem.style.marginBottom = "10px";
+      detailItem.appendChild(timeTakenElem);
+
+      // Add message dropdown if available
       if (testCaseResult.message) {
-        const messageItem = document.createElement("p");
-        messageItem.textContent = `Message: ${testCaseResult.message}`;
-        detailItem.appendChild(messageItem);
+        const messageButton = document.createElement("button");
+        messageButton.textContent = "Show Message";
+        const messageElem = document.createElement("p");
+        messageElem.textContent = testCaseResult.message;
+        messageElem.style.display = "none"; // Initially hidden
+
+        // Toggle message visibility
+        messageButton.onclick = () => {
+          messageElem.style.display =
+            messageElem.style.display === "none" ? "block" : "none";
+        };
+
+        detailItem.appendChild(messageButton);
+        detailItem.appendChild(messageElem);
       }
-      failureDetailsElem.appendChild(detailItem);
+
+      detailItem.style.paddingBottom = "20px";
+      detailItem.style.paddingTop = "20px";
+
+      detailsElem.appendChild(detailItem);
     });
   } else {
-    const noFailuresElem = document.createElement("p");
-    noFailuresElem.textContent = "No failures.";
-    failureDetailsElem.appendChild(noFailuresElem);
+    const noDetailsElem = document.createElement("p");
+    noDetailsElem.textContent = "No additional details.";
+    detailsElem.appendChild(noDetailsElem);
   }
 
   // Append all elements to the details container
@@ -66,7 +105,8 @@ function displayTestCaseDetails(testCase) {
   detailsContainer.appendChild(fileNameElem);
   detailsContainer.appendChild(summaryElem);
   detailsContainer.appendChild(statsElem);
-  detailsContainer.appendChild(failureDetailsElem);
+  detailsContainer.appendChild(toggleDetailsButton);
+  detailsContainer.appendChild(detailsElem);
 }
 
 // Initialize the dashboard on page load

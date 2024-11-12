@@ -2,6 +2,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  margin-bottom: 10px;
 }
 
 body {
@@ -97,4 +98,55 @@ body {
   padding: 20px;
   border-radius: 10px;
   overflow-y: auto;
+}
+
+/* Dropdown button styling */
+button {
+  width: 50%; /* Make the button fit the full width of its container */
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #c02038; /* Button color */
+  color: #fff; /* Text color */
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #a01b2f; /* Hover color */
+}
+
+button:focus {
+  outline: none;
+}
+
+/* Styling for failure/details container */
+ul#failure-details,
+ul#details {
+  width: 100%;
+  background-color: #f2f2f2; /* Background color for details */
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  display: none; /* Initially hidden, toggled by JavaScript */
+}
+
+/* Ensuring all text and list items inside details are aligned properly */
+ul#failure-details li,
+ul#details li {
+  font-size: 14px;
+  color: #333;
+  padding: 5px 0;
+}
+
+ul#failure-details p,
+ul#details p {
+  margin: 5px 0;
+}
+li {
+  padding-bottom: 20px;
+}
+#test-case-button {
+  padding-bottom: 20px;
 }

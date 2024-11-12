@@ -76,10 +76,17 @@ app.post("/upload", (req, res) => {
         }
 
         // Step 4: Save the test results to MongoDB
+        // Modified save to MongoDB logic
         const newTestCase = new TestCase({
           userEmail: userEmail,
           fileName: fileName,
           testResults: result, // Save the full result object
+          testcases: result.testcases.map((testCase) => ({
+            name: testCase.name,
+            status: testCase.status,
+            time: testCase.time, // Including time in the saved document
+            message: testCase.message || "", // Optional message if it exists
+          })),
         });
 
         newTestCase
