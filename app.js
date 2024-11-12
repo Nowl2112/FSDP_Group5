@@ -43,11 +43,10 @@ app.post("/run-tests", (req, res) => {
   });
 });
 
-
 app.post("/upload", (req, res) => {
   const fileContent = req.body.content;
   const fileName = req.body.name;
-  const userEmail = req.body.userEmail; // Capture the user's email
+  const userEmail = req.body.userEmail;
   const name = fileName.split(".");
   const pureFileName = name[0];
 
@@ -76,25 +75,23 @@ app.post("/upload", (req, res) => {
         }
 
         // Step 4: Save the test results to MongoDB
-        // Modified save to MongoDB logic
         const newTestCase = new TestCase({
           userEmail: userEmail,
           fileName: fileName,
-          testResults: result, // Save the full result object
+          testResults: result,
           testcases: result.testcases.map((testCase) => ({
             name: testCase.name,
             status: testCase.status,
-            time: testCase.time, // Including time in the saved document
-            message: testCase.message || "", // Optional message if it exists
+            time: testCase.time,
+            message: testCase.message || "",
           })),
         });
 
         newTestCase
           .save()
           .then((savedTestCase) => {
-            res.json(result);
             console.log("Test results saved:", savedTestCase);
-            res.json(result); // Respond with the saved result
+            res.json(result); // Respond only once here
           })
           .catch((err) => {
             console.error("Error saving test results to database:", err);
