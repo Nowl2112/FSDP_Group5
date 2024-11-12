@@ -1,0 +1,99 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+.navbar {
+  margin-top: -20px;
+  margin-bottom: -20px;
+  display: flex;
+  justify-content: space-between; /* Keeps logo on the left and space between items */
+  align-items: center; /* Centers vertically */
+}
+
+.navbar img {
+  width: 200px; /* Adjust logo size */
+}
+
+.navbar a {
+  margin-right: 20px;
+  text-decoration: none;
+  color: #000; /* Change to preferred color */
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.navbar a:hover {
+  color: #e62845; /* Change to preferred hover color */
+}
+
+.dashboard-container {
+  display: flex;
+  height: calc(100vh - 60px); /* Adjust for navbar height */
+}
+
+.sidebar {
+  width: 300px;
+  background-color: white;
+  padding: 15px;
+  overflow-y: auto;
+  border-top: solid rgb(129, 129, 129) 2px;
+}
+
+.sidebar h2 {
+  color: #333;
+}
+
+#search-bar {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#test-case-list {
+  list-style: none;
+  padding: 0;
+}
+
+#test-case-list li {
+  background-color: #e62845;
+  color: black;
+  padding: 15px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+#test-case-list li:hover {
+  background-color: #c02038;
+}
+
+.content {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #e62845;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.content h2 {
+  padding-bottom: 30px;
+}
+
+#test-case-details {
+  width: 90%;
+  height: 90%;
+  background-color: #e6e6e6;
+  padding: 20px;
+  border-radius: 10px;
+  overflow-y: auto;
+}

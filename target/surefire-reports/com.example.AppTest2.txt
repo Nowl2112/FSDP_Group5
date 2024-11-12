@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.example.AppTest2
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.141 s <<< FAILURE! -- in com.example.AppTest2
-com.example.AppTest2.testGoogleHomePage -- Time elapsed: 0.097 s <<< ERROR!
+Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.114 s <<< FAILURE! -- in com.example.AppTest2
+com.example.AppTest2.testGoogleHomePage -- Time elapsed: 0.077 s <<< ERROR!
 org.openqa.selenium.remote.NoSuchDriverException: 
 Unable to obtain: chromedriver, error chromedriver must exist: C:\Ngee ann poly\Year 2 sem 2\FSDP\chrome_driver\chromedriver-win32\chromedriver-win32\chromedriver.exe
 For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors/driver_location/
@@ -27,7 +27,7 @@ Caused by: java.lang.IllegalStateException: chromedriver must exist: C:\Ngee ann
 	at org.openqa.selenium.remote.service.DriverFinder.getBinaryPaths(DriverFinder.java:118)
 	... 12 more
 
-com.example.AppTest2.testYoutubePage -- Time elapsed: 0.096 s <<< ERROR!
+com.example.AppTest2.testYoutubePage -- Time elapsed: 0.077 s <<< ERROR!
 org.openqa.selenium.remote.NoSuchDriverException: 
 Unable to obtain: chromedriver, error chromedriver must exist: C:\Ngee ann poly\Year 2 sem 2\FSDP\chrome_driver\chromedriver-win32\chromedriver-win32\chromedriver.exe
 For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors/driver_location/
