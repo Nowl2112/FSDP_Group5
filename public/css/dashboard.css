@@ -10,29 +10,30 @@ body {
 }
 
 .navbar {
+  display: flex;
+  justify-content: center; /* Center the navbar contents */
+  align-items: center;
   margin-top: -20px;
   margin-bottom: -20px;
-  display: flex;
-  justify-content: space-between; /* Keeps logo on the left and space between items */
-  align-items: center; /* Centers vertically */
 }
 
-.navbar img {
+.navbar .logo {
+  margin-right: auto; /* Push the logo to the left */
   width: 200px; /* Adjust logo size */
 }
 
 .navbar a {
+  margin-left: 20px;
   margin-right: 20px;
   text-decoration: none;
   color: #000; /* Change to preferred color */
   font-weight: bold;
-  font-size: 20px;
+  font-size: 25px;
 }
 
 .navbar a:hover {
   color: #e62845; /* Change to preferred hover color */
 }
-
 .dashboard-container {
   display: flex;
   height: calc(100vh - 60px); /* Adjust for navbar height */
@@ -65,8 +66,8 @@ body {
 }
 
 #test-case-list li {
-  background-color: #e62845;
-  color: black;
+  background-color: #cc1934;
+  color: white;
   padding: 15px;
   margin-bottom: 10px;
   cursor: pointer;
@@ -80,7 +81,7 @@ body {
 .content {
   flex-grow: 1;
   padding: 20px;
-  background-color: #e62845;
+  background-color: #cc1934;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -89,6 +90,7 @@ body {
 
 .content h2 {
   padding-bottom: 30px;
+  color:#fff ;
 }
 
 #test-case-details {
