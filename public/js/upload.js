@@ -92,3 +92,47 @@ testButton.addEventListener("click", function (e) {
 });
 
 //
+// Show success modal after a successful test
+function showSuccessModal() {
+  const successModal = document.getElementById("successModal");
+  successModal.style.display = "flex"; // Show the modal as flex to center it
+
+  // Add event listeners for buttons
+  document.getElementById("uploadMoreBtn").addEventListener("click", () => {
+    successModal.style.display = "none"; // Close modal
+    fileInput.value = ""; // Reset file input
+    fileName.textContent = ""; // Clear selected file name display
+    content2 = "";
+    fileName2 = "";
+  });
+
+  document.getElementById("viewResultsBtn").addEventListener("click", () => {
+    window.location.href = "dashboard.html"; // Redirect to dashboard
+  });
+}
+
+// Call showSuccessModal() after a successful response in runTest()
+async function runTest(content, nameOfFile) {
+  try {
+    const userEmail = localStorage.getItem("email");
+
+    if (!userEmail) {
+      console.error("User email is not available in localStorage");
+      return;
+    }
+
+    const response = await fetch("/upload", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content, name: nameOfFile, userEmail }),
+    });
+
+    const result = await response.json();
+    console.log(result);
+
+    // Show success modal on successful response
+    if (response.ok) showSuccessModal();
+  } catch (err) {
+    console.error(err);
+  }
+}

@@ -3,7 +3,11 @@ let testCases = []; // Declare testCases globally
 // Fetch test cases and populate the list
 async function fetchTestCases() {
   const response = await fetch("/test-cases");
-  testCases = await response.json(); // Assign fetched data to the global testCases array
+  const allTestCases = await response.json(); // Fetch all test cases
+  const userEmail = localStorage.getItem("email"); // Get email from localStorage
+
+  // Filter test cases based on user email
+  testCases = allTestCases.filter(testCase => testCase.userEmail === userEmail);
 
   const testCaseList = document.getElementById("test-case-list");
   testCaseList.innerHTML = "";
@@ -15,6 +19,7 @@ async function fetchTestCases() {
     testCaseList.appendChild(listItem);
   });
 }
+
 
 // Display the selected test case details with a dropdown for general details
 function displayTestCaseDetails(testCase) {
