@@ -38,8 +38,27 @@ const parseSurefireReports = (baseDir,fileName, callback) => {
         };
 
         testsuite.testcase.forEach(testcase => {
+            const nameStr = testcase.$.name;
+            const regex = /(.*?)(\(\w+\))(.*)/;
+            const matches = nameStr.match(regex)
+
+            const testcaseName = matches[1];
+            var browserType;
+            if(matches[3] == "[1]")
+            {
+                 browserType = "Google"
+            }
+            else if(matches[3] == "[2]")
+            {
+                browserType = "FireFox"
+            }
+            else if(matches[3] == "[3]")
+            {
+                browserType = "Edge"
+            }
             const testResult = {
-                name: testcase.$.name,
+                name: testcaseName,
+                browserType : browserType,
                 status: 'passed',
                 time:  testcase.$.time
             };
