@@ -1,6 +1,5 @@
 let testCases = []; // Declare testCases globally
 
-// Fetch test cases and populate the list
 async function fetchTestCases() {
   const response = await fetch("/test-cases");
   const allTestCases = await response.json(); // Fetch all test cases
@@ -12,10 +11,38 @@ async function fetchTestCases() {
   const testCaseList = document.getElementById("test-case-list");
   testCaseList.innerHTML = "";
 
+  // Initialize a dictionary to track versions
+  const fileNameVersionMap = {};
+
+  // Process the test cases in reverse order so the latest get higher versions
+  testCases.reverse().forEach((testCase) => {
+    const baseFileName = testCase.fileName;
+
+    // Check if we've seen this fileName before and increment version if needed
+    if (fileNameVersionMap[baseFileName] == null) {
+      fileNameVersionMap[baseFileName] = 0; // Start with version 0 if it's a new filename
+    } else {
+      fileNameVersionMap[baseFileName] += 1; // Increment version for duplicates
+    }
+
+    const version = fileNameVersionMap[baseFileName];
+    const displayFileName = version === 0 ? baseFileName : `${baseFileName} (${version})`;
+
+    testCase.version = version; // Assign version number to the testCase object
+
+    // Store the modified test case back to the list
+    testCase.displayFileName = displayFileName;
+  });
+
+  // Sort test cases in descending order based on the 'createdAt' field
+  testCases.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Descending order
+
+  // Display sorted test cases
   testCases.forEach((testCase) => {
     const listItem = document.createElement("li");
-    listItem.textContent = testCase.fileName; // Use fileName for display
+    listItem.textContent = testCase.displayFileName;
     listItem.onclick = () => displayTestCaseDetails(testCase);
+
     testCaseList.appendChild(listItem);
   });
 }
@@ -34,6 +61,9 @@ function displayTestCaseDetails(testCase) {
 
   const fileNameElem = document.createElement("p");
   fileNameElem.innerHTML = `<strong>File Name:</strong> ${testCase.fileName}`;
+
+  const createdAtElem = document.createElement("p");
+  fileNameElem.innerHTML = `<strong>Created At:</strong> ${testCase.createdAt}`;
 
   const summaryElem = document.createElement("p");
   summaryElem.innerHTML = `<strong>Summary:</strong> ${
@@ -75,6 +105,13 @@ function displayTestCaseDetails(testCase) {
       }`;
       timeTakenElem.style.marginBottom = "10px";
       detailItem.appendChild(timeTakenElem);
+
+      const browserTypeElem = document.createElement("p");
+      browserTypeElem.innerHTML = `<strong>Browser type:</strong> ${
+        testCaseResult.browserType || "N/A"
+      }`;
+      browserTypeElem.style.marginBottom = "10px";
+      detailItem.appendChild(browserTypeElem);
 
       // Add message dropdown if available
       if (testCaseResult.message) {
@@ -138,7 +175,7 @@ function displayTestCases(filteredCases) {
 
   filteredCases.forEach((testCase) => {
     const listItem = document.createElement("li");
-    listItem.textContent = testCase.fileName;
+    listItem.textContent = testCase.displayFileName;
     listItem.onclick = () => displayTestCaseDetails(testCase);
     testCaseList.appendChild(listItem);
   });
