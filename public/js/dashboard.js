@@ -66,7 +66,7 @@ function displayTestCaseDetails(testCase) {
   createdAtElem.innerHTML = `<strong>Created At:</strong> ${testCase.createdAt}`;
 
   const nameElem = document.createElement("p");
-  nameElem.innerHTML = `<strong>Summary:</strong> ${
+  nameElem.innerHTML = `<strong>Name:</strong> ${
     testCase.testResults?.name || "No name available"
   }`;
 
@@ -165,9 +165,19 @@ function showTestCasePopup(testCaseResult) {
   timeElem.innerHTML = `<strong>Time:</strong> ${testCaseResult.time || "N/A"}`;
 
   const summaryElem = document.createElement("p");
-  summaryElem.innerHTML = `<strong>Summary:</strong> ${
-    testCaseResult.summary || "N/A"
-  }`;
+
+const boldText = document.createElement("strong");
+boldText.textContent = "Summary:";
+
+const normalText = document.createElement("span");
+normalText.textContent = ` ${testCaseResult.summary || "N/A"}`;
+
+// Append both parts to the summary element
+summaryElem.appendChild(boldText);
+summaryElem.appendChild(normalText);
+
+
+  
 
   const messageElem = document.createElement("p");
   messageElem.innerHTML = `<strong>Error Message:</strong> ${

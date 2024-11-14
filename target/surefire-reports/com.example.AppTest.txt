@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.example.AppTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 2, Errors: 1, Skipped: 0, Time elapsed: 5.462 s <<< FAILURE! -- in com.example.AppTest
-com.example.AppTest.testCustomerLoginButton(String)[2] -- Time elapsed: 1.987 s <<< ERROR!
+Tests run: 3, Failures: 2, Errors: 1, Skipped: 0, Time elapsed: 6.194 s <<< FAILURE! -- in com.example.AppTest
+com.example.AppTest.testCustomerLoginButton(String)[2] -- Time elapsed: 2.180 s <<< ERROR!
 org.openqa.selenium.SessionNotCreatedException: 
 Could not start a new session. Response code 500. Message: Expected browser binary location, but unable to find binary in default location, no 'moz:firefoxOptions.binary' capability provided, and no binary flag set on the command line 
 Host info: host: 'DESKTOP-JE1J77P', ip: '192.168.26.92'
@@ -33,7 +33,7 @@ Command: [null, newSession {capabilities=[Capabilities {acceptInsecureCerts: tru
 	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2034)
 	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:189)
 
-com.example.AppTest.testCustomerLoginButton(String)[1] -- Time elapsed: 4.262 s <<< FAILURE!
+com.example.AppTest.testCustomerLoginButton(String)[1] -- Time elapsed: 4.640 s <<< FAILURE!
 org.opentest4j.AssertionFailedError: expected: <Fail on Purpose> but was: <https://www.globalsqa.com/angularJs-protractor/BankingProject/#/customer>
 	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
 	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
@@ -49,7 +49,7 @@ org.opentest4j.AssertionFailedError: expected: <Fail on Purpose> but was: <https
 	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2034)
 	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:189)
 
-com.example.AppTest.testCustomerLoginButton(String)[3] -- Time elapsed: 5.394 s <<< FAILURE!
+com.example.AppTest.testCustomerLoginButton(String)[3] -- Time elapsed: 6.123 s <<< FAILURE!
 org.opentest4j.AssertionFailedError: expected: <Fail on Purpose> but was: <https://www.globalsqa.com/angularJs-protractor/BankingProject/#/customer>
 	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
 	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)

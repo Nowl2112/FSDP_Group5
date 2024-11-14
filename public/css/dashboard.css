@@ -273,3 +273,8 @@ li {
 .popup-container .popup-content:hover {
   cursor: auto;
 }
+.popup-container .popup-content p {
+  white-space: pre-wrap; /* This ensures that line breaks are respected */
+  word-wrap: break-word;
+}
+
