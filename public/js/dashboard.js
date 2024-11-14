@@ -180,3 +180,42 @@ function displayTestCases(filteredCases) {
     testCaseList.appendChild(listItem);
   });
 }
+
+const ctx = document.getElementById('myChart');
+
+new Chart(ctx, {
+  type: 'doughnut',
+  data: {
+    labels: ['Pass', 'Fail'],
+    color: '#000000',
+    datasets: [{
+      label: '# of Votes',
+      data: [12, 19],
+      backgroundColor: [
+        '#9EB384', // Green
+        '#F26853', // Red
+      ],
+      borderWidth: 1,
+      color: '#000000',
+
+    }]
+  },
+  options: {
+    responsive: false,
+    maintainAspectRatio: false,
+    plugins: {
+      title: {
+        display: true,
+        text: 'TestCase Pass Chart',
+        color: '#000000',
+      },
+      legend: {
+        labels: {
+          color: '#000000',
+        }
+      },
+    },
+
+    
+  }
+});

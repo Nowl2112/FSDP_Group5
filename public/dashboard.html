@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/dashboard.css" />
   </head>
   <body>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Navigation Bar -->
     <div class="navbar">
       <img src="/images/ocbc-logo.png" alt="Logo" class="logo" />
@@ -16,6 +17,7 @@
       <a href="upload.html">Upload</a>
     </div>
 
+    
     <div class="dashboard-container">
       <div class="sidebar">
         <h2>Test Cases</h2>
@@ -23,6 +25,10 @@
         <ul id="test-case-list"></ul>
       </div>
       <div class="content">
+
+        <canvas id="myChart"></canvas>
+
+        
         <h2>Test Case Details</h2>
         <div id="test-case-details">
           <p>Select a test case to view details.</p>

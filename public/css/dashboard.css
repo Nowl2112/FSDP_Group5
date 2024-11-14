@@ -11,7 +11,7 @@ body {
 
 .navbar {
   display: flex;
-  justify-content: center; /* Center the navbar contents */
+  justify-content: center; 
   align-items: center;
   margin-top: -20px;
   margin-bottom: -20px;
@@ -85,7 +85,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
+  flex-direction: column; 
+  
 }
 
 .content h2 {
@@ -151,4 +152,10 @@ li {
 }
 #test-case-button {
   padding-bottom: 20px;
+}
+
+#myChart
+{
+  margin-right:70%;
+  border:solid black;
 }

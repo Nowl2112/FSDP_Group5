@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.example.AppTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 6.170 s <<< FAILURE! -- in com.example.AppTest
-com.example.AppTest.testCustomerLoginButton(String)[1] -- Time elapsed: 3.755 s <<< FAILURE!
+Tests run: 3, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 6.694 s <<< FAILURE! -- in com.example.AppTest
+com.example.AppTest.testCustomerLoginButton(String)[1] -- Time elapsed: 4.369 s <<< FAILURE!
 org.opentest4j.AssertionFailedError: expected: <Fail on Purpose> but was: <https://www.globalsqa.com/angularJs-protractor/BankingProject/#/customer>
 	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
 	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
@@ -18,7 +18,7 @@ org.opentest4j.AssertionFailedError: expected: <Fail on Purpose> but was: <https
 	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2034)
 	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:189)
 
-com.example.AppTest.testCustomerLoginButton(String)[3] -- Time elapsed: 4.986 s <<< FAILURE!
+com.example.AppTest.testCustomerLoginButton(String)[3] -- Time elapsed: 5.465 s <<< FAILURE!
 org.opentest4j.AssertionFailedError: expected: <Fail on Purpose> but was: <https://www.globalsqa.com/angularJs-protractor/BankingProject/#/customer>
 	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
 	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
@@ -34,7 +34,7 @@ org.opentest4j.AssertionFailedError: expected: <Fail on Purpose> but was: <https
 	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2034)
 	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:189)
 
-com.example.AppTest.testCustomerLoginButton(String)[2] -- Time elapsed: 6.119 s <<< FAILURE!
+com.example.AppTest.testCustomerLoginButton(String)[2] -- Time elapsed: 6.641 s <<< FAILURE!
 org.opentest4j.AssertionFailedError: expected: <Fail on Purpose> but was: <https://www.globalsqa.com/angularJs-protractor/BankingProject/#/customer>
 	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
 	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
