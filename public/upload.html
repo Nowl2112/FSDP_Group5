@@ -21,6 +21,10 @@
     <title>Cross-Platform Browser Automation</title>
   </head>
   <body>
+    <div class="backdrop-overlay" id="backdrop-overlay"></div>
+
+    <div id="loader"></div>
+
     <!-- Navbar Section -->
     <div class="navbar">
       <img src="/images/ocbc-logo.png" alt="Logo" class="logo" />
@@ -77,6 +81,15 @@
   </div>
 </div>
 
+<div id="errorModal" class="modal">
+  <div class="modal-content">
+    <h3>Upload Error</h3>
+    <p id="errorMessage"></p>
+    <div class="modal-buttons">
+      <button id="errorTryAgainBtn">Try Again</button>
+    </div>
+  </div>
+</div>
 
     <script src="js/upload.js"></script>
   </body>
