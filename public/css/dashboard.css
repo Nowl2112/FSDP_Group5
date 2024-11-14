@@ -11,7 +11,7 @@ body {
 
 .navbar {
   display: flex;
-  justify-content: center; /* Center the navbar contents */
+  justify-content: center; 
   align-items: center;
   margin-top: -20px;
   margin-bottom: -20px;
@@ -85,7 +85,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
+  flex-direction: column; 
+  
 }
 
 .content h2 {
@@ -160,12 +161,73 @@ li {
 #test-case-button {
   padding-bottom: 20px;
 }
-/* Table Styling */
-.test-case-table {
-  width: 100%;
-  margin-top: 20px;
-  border-collapse: collapse;
+
+ /* #chart-container
+{
+  margin-right:65%;
+  width:25%;
+  height:auto;
+  background-color: rgb(252, 139, 139);
+  border-radius: 5%;
+  padding:2%;
+  display:none;
+  border:solid black;
+} */
+
+.test-case-amount-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 99%;
+  margin-bottom: 20px;
+  gap:1%;
+  display:none;
 }
+
+.chart-container,
+.test-case-amount,
+.passing-rate {
+  width: 30%;
+  height: 350px; /* Set a fixed height */
+  background-color: white;
+  border: solid rgb(0, 0, 0);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5%;
+
+}
+
+.chart-container {
+  /* background-color: rgb(252, 139, 139); */
+  padding: 2%;
+  /* border: solid black; */
+}
+
+.test-case-amount h3,
+.passing-rate h3 {
+  margin-top: 0;
+}
+
+.test-case-amount span,
+.passing-rate span {
+  font-size: 36px;
+  font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 .test-case-table th, .test-case-table td {
   padding: 10px;
@@ -273,3 +335,4 @@ li {
 .popup-container .popup-content:hover {
   cursor: auto;
 }
+

@@ -1,5 +1,5 @@
 let testCases = []; // Declare testCases globally
-
+let myChart;
 async function fetchTestCases() {
   const response = await fetch("/test-cases");
   const allTestCases = await response.json(); // Fetch all test cases
@@ -32,6 +32,7 @@ async function fetchTestCases() {
 
     // Store the modified test case back to the list
     testCase.displayFileName = displayFileName;
+    
   });
 
   // Sort test cases in descending order based on the 'createdAt' field
@@ -49,11 +50,154 @@ async function fetchTestCases() {
 
 
 // Display the selected test case details with a dropdown for general details
+// function displayTestCaseDetails(testCase) {
+//   const detailsContainer = document.getElementById("test-case-details");
+
+//   // Clear existing details
+//   detailsContainer.innerHTML = "";
+
+//   // Create elements for general details
+//   const emailElem = document.createElement("p");
+//   emailElem.innerHTML = `<strong>User Email:</strong> ${testCase.userEmail}`;
+
+//   const fileNameElem = document.createElement("p");
+//   fileNameElem.innerHTML = `<strong>File Name:</strong> ${testCase.fileName}`;
+
+//   const createdAtElem = document.createElement("p");
+//   createdAtElem.innerHTML = `<strong>Created At:</strong> ${testCase.createdAt}`;
+
+//   const nameElem = document.createElement("p");
+//   nameElem.innerHTML = `<strong>Summary:</strong> ${
+//     testCase.testResults?.name || "No name available"
+//   }`;
+
+//   const statsElem = document.createElement("p");
+//   statsElem.innerHTML = `<strong>Tests:</strong> ${testCase.testResults.tests}, <strong>Failures:</strong> ${testCase.testResults.failures}, <strong>Errors:</strong> ${testCase.testResults.errors}, <strong>Skipped:</strong> ${testCase.testResults.skipped}`;
+
+//   // Append general details to the container
+//   detailsContainer.appendChild(emailElem);
+//   detailsContainer.appendChild(fileNameElem);
+//   detailsContainer.appendChild(createdAtElem);
+//   detailsContainer.appendChild(nameElem);
+//   detailsContainer.appendChild(statsElem);
+
+//   // Create the table for test case results
+//   const table = document.createElement("table");
+//   table.classList.add("test-case-table");
+//   table.innerHTML = `
+//     <thead>
+//       <tr>
+//         <th>Name</th>
+//         <th>Success</th>
+//         <th>Time</th>
+//         <th>Summary</th>
+//       </tr>
+//     </thead>
+//     <tbody>
+//     </tbody>
+//   `;
+
+//   const tbody = table.querySelector("tbody");
+
+//   // Populate table rows
+//   if (testCase.testResults?.testcases && testCase.testResults.testcases.length > 0) {
+//     testCase.testResults.testcases.forEach((testCaseResult) => {
+//       const row = document.createElement("tr");
+
+//       // Row data
+//       const nameCell = document.createElement("td");
+//       nameCell.textContent = testCaseResult.name;
+
+//       const successCell = document.createElement("td");
+//       successCell.textContent = testCaseResult.status === "passed" ? "Yes" : "No";
+
+//       const timeCell = document.createElement("td");
+//       timeCell.textContent = testCaseResult.time || "N/A";
+
+//       const summaryCell = document.createElement("td");
+//       summaryCell.textContent = testCaseResult.summary || "N/A";
+
+//       // Append cells to the row
+//       row.appendChild(nameCell);
+//       row.appendChild(successCell);
+//       row.appendChild(timeCell);
+//       row.appendChild(summaryCell);
+
+//       // Add click event to show popup on row click
+//       row.onclick = () => showTestCasePopup(testCaseResult);
+
+//       tbody.appendChild(row);
+//     });
+//   } else {
+//     const noResultsRow = document.createElement("tr");
+//     const noResultsCell = document.createElement("td");
+//     noResultsCell.colSpan = 4;
+//     noResultsCell.textContent = "No test results available";
+//     noResultsRow.appendChild(noResultsCell);
+//     tbody.appendChild(noResultsRow);
+//   }
+
+//   detailsContainer.appendChild(table);
+
+
+//   const chartContainer = document.getElementById("chart-container");
+//   chartContainer.innerHTML = ""; // Clear any existing chart
+
+//   if (testCase.testResults && testCase.testResults.testcases) {
+//     // Calculate the pass and fail counts
+//     const passCount = testCase.testResults.testcases.filter(tc => tc.status === "passed").length;
+//     const failCount = testCase.testResults.testcases.filter(tc => tc.status !== "passed").length;
+
+//     // Create the chart or update the existing one
+//     if (myChart) {
+//       myChart.data.datasets[0].data = [passCount, failCount];
+//       myChart.update();
+//     } else {
+//       myChart = new Chart(chartContainer, {
+//         type: 'doughnut',
+//         data: {
+//           labels: ['Pass', 'Fail'],
+//           datasets: [{
+//             label: '# of Tests',
+//             data: [passCount, failCount],
+//             backgroundColor: [
+//               '#9EB384', // Green
+//               '#F26853', // Red
+//             ],
+//             borderWidth: 1,
+//             color: '#000000',
+//           }]
+//         },
+//         options: {
+//           responsive: false,
+//           maintainAspectRatio: false,
+//           plugins: {
+//             title: {
+//               display: true,
+//               text: 'Test Case Pass/Fail Chart',
+//               color: '#000000',
+//             },
+//             legend: {
+//               labels: {
+//                 color: '#000000',
+//               }
+//             },
+//           },
+//         }
+//       });
+//     }
+//   } else {
+//     chartContainer.innerHTML = "No test results available.";
+//   }
+// }
+
 function displayTestCaseDetails(testCase) {
   const detailsContainer = document.getElementById("test-case-details");
+  const chartContainer = document.getElementById("chart-container");
 
-  // Clear existing details
+  // Clear existing details and chart
   detailsContainer.innerHTML = "";
+  chartContainer.innerHTML = "";
 
   // Create elements for general details
   const emailElem = document.createElement("p");
@@ -80,6 +224,55 @@ function displayTestCaseDetails(testCase) {
   detailsContainer.appendChild(nameElem);
   detailsContainer.appendChild(statsElem);
 
+  // Create or update the chart based on the test case results
+  if (testCase.testResults && testCase.testResults.testcases) {
+    const passCount = testCase.testResults.testcases.filter(tc => tc.status === "passed").length;
+    const failCount = testCase.testResults.testcases.filter(tc => tc.status === "failed").length;
+    const errorCount = testCase.testResults.testcases.filter(tc => tc.status === "error").length;
+    const skipCount = testCase.testResults.testcases.filter(tc => tc.status !== "passed" && tc.status !== "failed" && tc.status !== "error").length;
+    if (myChart) {
+      myChart.data.datasets[0].data = [passCount, failCount,errorCount,skipCount];
+      myChart.update();
+    } else {
+      myChart = new Chart(chartContainer, {
+        type: 'doughnut',
+        data: {
+          labels: ['Pass', 'Fail','Error', 'Skipped'],
+          datasets: [{
+            label: '# of Tests',
+            data: [passCount, failCount],
+            // backgroundColor: ['#9EB384', '#F26853',"#999090",'#e6b400'],
+            backgroundColor: ['#9EB384', '#F26853',"#999090",'#e6b400'],
+
+            borderWidth: 1,
+            color: '#000000',
+          }]
+        },
+        options: {
+          responsive: false,
+          maintainAspectRatio: false,
+          plugins: {
+            customCanvasBackgroundColor: {
+              color: 'lightGreen',
+            },
+            title: {
+              display: true,
+              text: 'Test Case Pass/Fail Chart',
+              color: '#000000',
+            },
+            legend: {
+              labels: {
+                color: '#000000',
+              }
+            },
+          },
+        }
+      });
+    }
+  } else {
+    chartContainer.innerHTML = "No test results available.";
+  }
+
   // Create the table for test case results
   const table = document.createElement("table");
   table.classList.add("test-case-table");
@@ -98,12 +291,10 @@ function displayTestCaseDetails(testCase) {
 
   const tbody = table.querySelector("tbody");
 
-  // Populate table rows
   if (testCase.testResults?.testcases && testCase.testResults.testcases.length > 0) {
     testCase.testResults.testcases.forEach((testCaseResult) => {
       const row = document.createElement("tr");
 
-      // Row data
       const nameCell = document.createElement("td");
       nameCell.textContent = testCaseResult.name;
 
@@ -116,13 +307,11 @@ function displayTestCaseDetails(testCase) {
       const summaryCell = document.createElement("td");
       summaryCell.textContent = testCaseResult.summary || "N/A";
 
-      // Append cells to the row
       row.appendChild(nameCell);
       row.appendChild(successCell);
       row.appendChild(timeCell);
       row.appendChild(summaryCell);
 
-      // Add click event to show popup on row click
       row.onclick = () => showTestCasePopup(testCaseResult);
 
       tbody.appendChild(row);
@@ -137,7 +326,22 @@ function displayTestCaseDetails(testCase) {
   }
 
   detailsContainer.appendChild(table);
+  document.getElementById("test-case-amount-container").style.display = "flex";
+  const test_case_amount_text = document.getElementById('test-case-amount-text');
+  const passing_rate_text  = document.getElementById("passing-rate-text");
+
+  
+  const passCount = testCase.testResults.testcases.filter(tc => tc.status === "passed").length;
+  const failCount = testCase.testResults.testcases.filter(tc => tc.status === "failed").length;
+  const errorCount = testCase.testResults.testcases.filter(tc => tc.status === "error").length;
+  const skipCount = testCase.testResults.testcases.filter(tc => tc.status !== "passed" && tc.status !== "failed" && tc.status !== "error").length;
+  const total_test = Number(testCase.testResults.tests)
+  test_case_amount_text.innerText = total_test
+  const passingRate = passCount/total_test
+  passing_rate_text.innerText = passingRate*100 + "%"
+  console.log(passingRate);
 }
+
 
 // Function to show the popup with detailed information
 function showTestCasePopup(testCaseResult) {
@@ -233,3 +437,41 @@ function displayTestCases(filteredCases) {
     testCaseList.appendChild(listItem);
   });
 }
+
+
+// new Chart(ctx, {
+//   type: 'doughnut',
+//   data: {
+//     labels: ['Pass', 'Fail'],
+//     color: '#000000',
+//     datasets: [{
+//       label: '# of Votes',
+//       data: [12, 19],
+//       backgroundColor: [
+//         '#9EB384', // Green
+//         '#F26853', // Red
+//       ],
+//       borderWidth: 1,
+//       color: '#000000',
+
+//     }]
+//   },
+//   options: {
+//     responsive: false,
+//     maintainAspectRatio: false,
+//     plugins: {
+//       title: {
+//         display: true,
+//         text: 'TestCase Pass Chart',
+//         color: '#000000',
+//       },
+//       legend: {
+//         labels: {
+//           color: '#000000',
+//         }
+//       },
+//     },
+
+    
+//   }
+// });
