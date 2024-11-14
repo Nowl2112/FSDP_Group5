@@ -165,7 +165,7 @@ void wait5Seconds()
 
     }
 
-    // @ParameterizedTest
+    @ParameterizedTest
     @MethodSource("browserProvider")
     public void testDepositing(String browser) {
         String amountToDeposit = "500";
@@ -224,10 +224,11 @@ void wait5Seconds()
         String newBalance = balanceElement.getText();
 
 
-        assertEquals(Integer.parseInt(newBalance), Integer.parseInt(balance)+Integer.parseInt(amountToDeposit));
+        // assertEquals(Integer.parseInt(newBalance), Integer.parseInt(balance)+Integer.parseInt(amountToDeposit));
+        assertEquals(Integer.parseInt(newBalance), Integer.parseInt(balance)-Integer.parseInt(amountToDeposit)); //Fail on purpose
     }
 
-    // @ParameterizedTest
+    @ParameterizedTest
     @MethodSource("browserProvider")
     public void testWithdrawl(String browser)
     {
@@ -257,7 +258,7 @@ void wait5Seconds()
 
     }
 
-    // @ParameterizedTest
+    @ParameterizedTest
     @MethodSource("browserProvider")
     public void testWithdrawlMoreThanCurrentAmount(String browser)
     {
@@ -270,7 +271,7 @@ void wait5Seconds()
         assertEquals("Transaction Failed. You can not withdraw amount more than the balance.",errorMessage);
 
     }
-    // @ParameterizedTest
+    @ParameterizedTest
     @MethodSource("browserProvider")
     public void testWithdrawalWithNegative(String browser)
     {
