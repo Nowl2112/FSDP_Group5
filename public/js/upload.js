@@ -88,23 +88,39 @@ dropZone.addEventListener("click", function (e) {
 //Havnet fully test yet
 testButton.addEventListener("click", function (e) {
   e.preventDefault();
-  console.log(fileName2);
-  const fileExtension = fileName2.split(".");
-  console.log(fileExtension)
+  
   if (content2 != "" && fileName2 != "" && content2 != undefined && fileName != undefined) {
-    // runTest(content2, fileName2);
-    fileInput.value = undefined
-    fileName.textContent = undefined
-    content2 = undefined
-    fileName2 = undefined
-  }
-  const errorModal = document.getElementById("errorModal");
+    const fileExtension = fileName2.split(".");
+    if(fileExtension[1] == "java")
+    {
+      runTest(content2, fileName2);
+      fileInput.value = undefined
+      fileName.textContent = undefined
+      content2 = undefined
+      fileName2 = undefined
+    }
+    else
+    {
+      const errorModal = document.getElementById("errorModal");
       const errorMessage = document.getElementById("errorMessage");
-      errorMessage.textContent = "No File Input";
+      errorMessage.textContent = "File input is not a java file";
       errorModal.style.display = "flex";
       document.getElementById("errorTryAgainBtn").addEventListener("click", () => {
       errorModal.style.display = "none";
       });
+    }
+  }
+  else
+  {
+    const errorModal = document.getElementById("errorModal");
+    const errorMessage = document.getElementById("errorMessage");
+    errorMessage.textContent = "No File Input";
+    errorModal.style.display = "flex";
+    document.getElementById("errorTryAgainBtn").addEventListener("click", () => {
+    errorModal.style.display = "none";
+    });
+  }
+ 
 });
 
 //
