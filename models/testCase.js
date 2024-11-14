@@ -13,6 +13,7 @@ const testCaseSchema = new mongoose.Schema(
       testcases: [
         {
           name: String,
+          browserType:String,
           status: String,
           message: String,
           time: String,

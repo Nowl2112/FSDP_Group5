@@ -42,6 +42,15 @@ app.post("/run-tests", (req, res) => {
     });
   });
 });
+app.delete("/test-cases", async (req, res) => {
+  try {
+    const result = await TestCase.deleteMany({});
+    res.status(200).json({ message: "All test cases deleted successfully", deletedCount: result.deletedCount });
+  } catch (error) {
+    console.error("Error deleting test cases:", error);
+    res.status(500).json({ message: "Error deleting test cases", error });
+  }
+});
 
 app.post("/upload", (req, res) => {
   const fileContent = req.body.content;
@@ -81,6 +90,7 @@ app.post("/upload", (req, res) => {
           testResults: result,
           testcases: result.testcases.map((testCase) => ({
             name: testCase.name,
+            browserType:testCase.browserType,
             status: testCase.status,
             time: testCase.time,
             message: testCase.message || "",

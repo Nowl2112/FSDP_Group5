@@ -1,20 +1,12 @@
-
 const fs = require('fs');
 const path = require('path');
 const xml2js = require('xml2js');
 
-// const app = express();
-// const port = 3000;
-
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(express.static('public'));
-
 // Function to parse Surefire XML reports
-const parseSurefireReports = (baseDir,fileName, callback) => {
+const parseSurefireReports = (baseDir, fileName, callback) => {
     const reportsDir = path.join(baseDir, 'target/surefire-reports');
     const filePath = path.join(reportsDir, `${fileName}.xml`);
-    console.log(filePath)
+    console.log(filePath);
     if (!fs.existsSync(filePath)) {
         return callback(new Error('File not found'));
     }
@@ -27,7 +19,6 @@ const parseSurefireReports = (baseDir,fileName, callback) => {
         }
 
         const testsuite = result.testsuite;
-        // console.log(testsuite)
         const suiteResult = {
             name: testsuite.$.name,
             tests: testsuite.$.tests,
@@ -40,27 +31,31 @@ const parseSurefireReports = (baseDir,fileName, callback) => {
         testsuite.testcase.forEach(testcase => {
             const nameStr = testcase.$.name;
             const regex = /(.*?)(\(\w+\))(.*)/;
-            const matches = nameStr.match(regex)
+            const matches = nameStr.match(regex);
 
-            const testcaseName = matches[1];
-            var browserType;
-            if(matches[3] == "[1]")
-            {
-                 browserType = "Google"
+            let testcaseName = nameStr;  // Default to the full name if regex doesn't match
+            let browserType = "Unknown"; // Default browser type in case no match is found
+
+            if (matches) {
+                testcaseName = matches[1];
+                
+                // Determine browser type based on the third match
+                if (matches[3] === "[1]") {
+                    browserType = "Google";
+                } else if (matches[3] === "[2]") {
+                    browserType = "FireFox";
+                } else if (matches[3] === "[3]") {
+                    browserType = "Edge";
+                }
+            } else {
+                console.warn(`Unexpected format for testcase name: ${nameStr}`);
             }
-            else if(matches[3] == "[2]")
-            {
-                browserType = "FireFox"
-            }
-            else if(matches[3] == "[3]")
-            {
-                browserType = "Edge"
-            }
+
             const testResult = {
                 name: testcaseName,
-                browserType : browserType,
+                browserType: browserType,
                 status: 'passed',
-                time:  testcase.$.time
+                time: testcase.$.time
             };
 
             if (testcase.failure) {
@@ -80,10 +75,6 @@ const parseSurefireReports = (baseDir,fileName, callback) => {
     });
 };
 
-module.exports = 
-{
+module.exports = {
     parseSurefireReports,
-}
-
-
-
+};
