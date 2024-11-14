@@ -335,11 +335,4 @@ li {
 .popup-container .popup-content:hover {
   cursor: auto;
 }
-<<<<<<< HEAD
-.popup-container .popup-content p {
-  white-space: pre-wrap; /* This ensures that line breaks are respected */
-  word-wrap: break-word;
-}
-=======
->>>>>>> cf7dc65bb142ba53bce30f06245c6fcba974d114
 

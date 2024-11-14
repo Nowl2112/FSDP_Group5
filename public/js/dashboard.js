@@ -365,6 +365,9 @@ function showTestCasePopup(testCaseResult) {
   const statusElem = document.createElement("p");
   statusElem.innerHTML = `<strong>Status:</strong> ${testCaseResult.status}`;
 
+  const browserTypeElem=document.createElement("P");
+  browserTypeElem.innerHTML=`<strong>BrowserType:</strong> ${testCaseResult.browserType || "N/A"}`;
+
   const timeElem = document.createElement("p");
   timeElem.innerHTML = `<strong>Time:</strong> ${testCaseResult.time || "N/A"}`;
 
@@ -381,6 +384,8 @@ summaryElem.appendChild(boldText);
 summaryElem.appendChild(normalText);
 
 
+
+
   
 
   const messageElem = document.createElement("p");
@@ -393,6 +398,7 @@ summaryElem.appendChild(normalText);
   popupContent.appendChild(nameElem);
   popupContent.appendChild(statusElem);
   popupContent.appendChild(timeElem);
+  popupContent.appendChild(browserTypeElem);
   popupContent.appendChild(summaryElem);
   popupContent.appendChild(messageElem);
 
