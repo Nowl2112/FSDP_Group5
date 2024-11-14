@@ -11,7 +11,17 @@ const createTestCase = async (req, res) => {
 
     const newTestCase = new TestCase({
       userEmail,
-      results,
+      testResults: {
+        ...results,
+        testcases: results.testcases.map((testCase) => ({
+          name: testCase.name,
+          browserType: testCase.browserType,
+          status: testCase.status,
+          time: testCase.time,
+          message: testCase.message || "",
+          summary: testCase.summary, // Ensure summary is included here
+        })),
+      },
     });
 
     const savedTestCase = await newTestCase.save();

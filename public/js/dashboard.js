@@ -65,9 +65,9 @@ function displayTestCaseDetails(testCase) {
   const createdAtElem = document.createElement("p");
   fileNameElem.innerHTML = `<strong>Created At:</strong> ${testCase.createdAt}`;
 
-  const summaryElem = document.createElement("p");
-  summaryElem.innerHTML = `<strong>Summary:</strong> ${
-    testCase.testResults?.name || "No summary available"
+  const nameElem = document.createElement("p");
+  nameElem.innerHTML = `<strong>Summary:</strong> ${
+    testCase.testResults?.name || "No name available"
   }`;
 
   // Display the number of tests, failures, errors, and skipped
@@ -113,6 +113,15 @@ function displayTestCaseDetails(testCase) {
       browserTypeElem.style.marginBottom = "10px";
       detailItem.appendChild(browserTypeElem);
 
+      const summaryElem = document.createElement("p");
+      summaryElem.innerHTML = `<strong>Summary:</strong> ${
+        testCaseResult.summary
+          ? testCaseResult.summary.replace(/</g, "&lt;").replace(/>/g, "&gt;") // Escape angle brackets
+          : "N/A"
+      }`;
+      summaryElem.style.marginBottom = "10px";
+      detailItem.appendChild(summaryElem);
+      
       // Add message dropdown if available
       if (testCaseResult.message) {
         const messageButton = document.createElement("button");
@@ -145,7 +154,7 @@ function displayTestCaseDetails(testCase) {
   // Append all elements to the details container
   detailsContainer.appendChild(emailElem);
   detailsContainer.appendChild(fileNameElem);
-  detailsContainer.appendChild(summaryElem);
+  detailsContainer.appendChild(nameElem);
   detailsContainer.appendChild(statsElem);
   detailsContainer.appendChild(toggleDetailsButton);
   detailsContainer.appendChild(detailsElem);
