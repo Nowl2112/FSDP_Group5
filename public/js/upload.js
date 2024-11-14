@@ -1,35 +1,41 @@
+// setTimeout(function() {
+//   document.getElementById('loader').style.display = 'none';
+// }, 100000);
+
 //Handle running test
-async function runTest(content, nameOfFile) {
-  try {
-    const userEmail = localStorage.getItem("email"); // Retrieve the email from localStorage
+// async function runTest(content, nameOfFile) {
+//   try {
+//     const userEmail = localStorage.getItem("email"); // Retrieve the email from localStorage
 
-    // Check if email exists in localStorage
-    if (!userEmail) {
-      console.error("User email is not available in localStorage");
-      return;
-    }
+//     // Check if email exists in localStorage
+//     if (!userEmail) {
+//       console.error("User email is not available in localStorage");
+//       return;
+//     }
 
-    const response = await fetch("/upload", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        content: content,
-        name: nameOfFile,
-        userEmail: userEmail,
-      }), // Include userEmail
-    });
+//     const response = await fetch("/upload", {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({
+//         content: content,
+//         name: nameOfFile,
+//         userEmail: userEmail,
+//       }), // Include userEmail
+//     });
 
-    const result = await response.json();
-    console.log(result);
-  } catch (err) {
-    console.error(err);
-  }
-}
+//     const result = await response.json();
+//     console.log(result);
+//   } catch (err) {
+//     console.error(err);
+//   }
+// }
 
 const dropZone = document.getElementById("dropZone");
 const fileInput = document.getElementById("fileInput");
 const fileName = document.getElementById("fileName");
 const testButton = document.getElementById("test-btn");
+const loader = document.getElementById('loader');
+const backgroundBlur = document.getElementById('backdrop-overlay')
 var fileName2;
 var content2;
 // Handle file selection
@@ -43,7 +49,7 @@ fileInput.addEventListener("change", function (e) {
     reader.onload = async function (event) {
       content2 = event.target.result;
       // Now content2 is ready, enable the test button or directly call runTest
-      console.log("File content loaded", content2);
+      // console.log("File content loaded", content2);
     };
 
     reader.readAsText(this.files[0]);
@@ -82,13 +88,23 @@ dropZone.addEventListener("click", function (e) {
 //Havnet fully test yet
 testButton.addEventListener("click", function (e) {
   e.preventDefault();
-  if (content2 != "" && fileName2 != "") {
-    runTest(content2, fileName2);
+  console.log(fileName2);
+  const fileExtension = fileName2.split(".");
+  console.log(fileExtension)
+  if (content2 != "" && fileName2 != "" && content2 != undefined && fileName != undefined) {
+    // runTest(content2, fileName2);
+    fileInput.value = undefined
+    fileName.textContent = undefined
+    content2 = undefined
+    fileName2 = undefined
   }
-  fileInput.value = "";
-  fileName.textContent = "";
-  content2 = "";
-  fileName2 = "";
+  const errorModal = document.getElementById("errorModal");
+      const errorMessage = document.getElementById("errorMessage");
+      errorMessage.textContent = "No File Input";
+      errorModal.style.display = "flex";
+      document.getElementById("errorTryAgainBtn").addEventListener("click", () => {
+      errorModal.style.display = "none";
+      });
 });
 
 //
@@ -100,10 +116,6 @@ function showSuccessModal() {
   // Add event listeners for buttons
   document.getElementById("uploadMoreBtn").addEventListener("click", () => {
     successModal.style.display = "none"; // Close modal
-    fileInput.value = ""; // Reset file input
-    fileName.textContent = ""; // Clear selected file name display
-    content2 = "";
-    fileName2 = "";
   });
 
   document.getElementById("viewResultsBtn").addEventListener("click", () => {
@@ -114,25 +126,36 @@ function showSuccessModal() {
 // Call showSuccessModal() after a successful response in runTest()
 async function runTest(content, nameOfFile) {
   try {
-    const userEmail = localStorage.getItem("email");
-
-    if (!userEmail) {
-      console.error("User email is not available in localStorage");
-      return;
-    }
-
-    const response = await fetch("/upload", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ content, name: nameOfFile, userEmail }),
-    });
-
-    const result = await response.json();
-    console.log(result);
-
-    // Show success modal on successful response
-    if (response.ok) showSuccessModal();
+    
+      backgroundBlur.style.display = "block";
+      loader.style.display = "block";
+      const userEmail = localStorage.getItem("email");
+  
+      if (!userEmail) {
+        console.error("User email is not available in localStorage");
+        return;
+      }
+  
+      const response = await fetch("/upload", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content, name: nameOfFile, userEmail }),
+      });
+  
+      const result = await response.json();
+      console.log(result);
+  
+  
+      // Show success modal on successful response
+      if (response.ok)
+        {
+          backgroundBlur.style.display = "none";
+          loader.style.display = "none";
+  
+          showSuccessModal();
+        }
   } catch (err) {
+    
     console.error(err);
   }
 }

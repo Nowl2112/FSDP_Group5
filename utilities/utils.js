@@ -57,9 +57,10 @@ const parseSurefireReports = (baseDir, fileName, callback) => {
                 status: 'passed',
                 time: testcase.$.time
             };
-
             if (testcase.failure) {
+                const match = testcase.failure[0]._.match(/expected: <(.+)> but was: <(.+)>/);
                 testResult.status = 'failed';
+                testResult.summary = match[0];
                 testResult.message = testcase.failure[0]._;
             }
 

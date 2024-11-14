@@ -170,6 +170,47 @@ body {
 }
 
 #uploadMoreBtn:hover,
-#viewResultsBtn:hover {
+#viewResultsBtn:hover,
+#errorTryAgainBtn:hover {
   opacity: 0.9;
+}
+
+#errorTryAgainBtn {
+  background-color: #e62845;
+  color: white;
+  width: 120px;
+}
+
+
+#loader {
+  position: fixed;
+  top: calc(50vh - 75px);  /* 75px is half of the height (150px) */
+  left: calc(50vw - 75px); /* 75px is half of the width (150px) */
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid rgb(255, 0, 0);
+  width: 150px;
+  height: 150px;
+  animation: spin 2s linear infinite;
+  z-index: 9999;
+  display:none;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+.backdrop-overlay {
+  display: none;  /* Hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);  /* Semi-transparent black */
+  backdrop-filter: blur(5px);  /* This creates the blur effect */
+  -webkit-backdrop-filter: blur(5px);  /* For Safari support */
+  z-index: 9998;  /* Just below the loader */
 }
