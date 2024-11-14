@@ -55,7 +55,7 @@ function displayTestCaseDetails(testCase) {
   // Clear existing details
   detailsContainer.innerHTML = "";
 
-  // Create elements for each detail you want to display
+  // Create elements for general details
   const emailElem = document.createElement("p");
   emailElem.innerHTML = `<strong>User Email:</strong> ${testCase.userEmail}`;
 
@@ -63,101 +63,145 @@ function displayTestCaseDetails(testCase) {
   fileNameElem.innerHTML = `<strong>File Name:</strong> ${testCase.fileName}`;
 
   const createdAtElem = document.createElement("p");
-  fileNameElem.innerHTML = `<strong>Created At:</strong> ${testCase.createdAt}`;
+  createdAtElem.innerHTML = `<strong>Created At:</strong> ${testCase.createdAt}`;
 
   const nameElem = document.createElement("p");
   nameElem.innerHTML = `<strong>Summary:</strong> ${
     testCase.testResults?.name || "No name available"
   }`;
 
-  // Display the number of tests, failures, errors, and skipped
   const statsElem = document.createElement("p");
   statsElem.innerHTML = `<strong>Tests:</strong> ${testCase.testResults.tests}, <strong>Failures:</strong> ${testCase.testResults.failures}, <strong>Errors:</strong> ${testCase.testResults.errors}, <strong>Skipped:</strong> ${testCase.testResults.skipped}`;
 
-  // Create a button for toggling details visibility
-  const toggleDetailsButton = document.createElement("button");
-  toggleDetailsButton.textContent = "Show Details";
-  toggleDetailsButton.onclick = () => {
-    const detailsElem = document.getElementById(`details-${testCase._id}`);
-    detailsElem.style.display =
-      detailsElem.style.display === "none" ? "block" : "none";
-  };
-
-  // Create the details container (initially hidden)
-  const detailsElem = document.createElement("ul");
-  detailsElem.id = `details-${testCase._id}`;
-  detailsElem.style.display = "none"; // Hide initially
-  detailsElem.innerHTML = "<strong>Test Details:</strong>";
-
-  // Add details from the test case
-  if (
-    testCase.testResults?.testcases &&
-    testCase.testResults.testcases.length > 0
-  ) {
-    testCase.testResults.testcases.forEach((testCaseResult) => {
-      const detailItem = document.createElement("li");
-      detailItem.innerHTML = `<strong>${testCaseResult.name}:</strong> ${testCaseResult.status}`;
-
-      // Display time taken for each test case
-      const timeTakenElem = document.createElement("p");
-      timeTakenElem.innerHTML = `<strong>Time taken:</strong> ${
-        testCaseResult.time || "N/A"
-      }`;
-      timeTakenElem.style.marginBottom = "10px";
-      detailItem.appendChild(timeTakenElem);
-
-      const browserTypeElem = document.createElement("p");
-      browserTypeElem.innerHTML = `<strong>Browser type:</strong> ${
-        testCaseResult.browserType || "N/A"
-      }`;
-      browserTypeElem.style.marginBottom = "10px";
-      detailItem.appendChild(browserTypeElem);
-
-      const summaryElem = document.createElement("p");
-      summaryElem.innerHTML = `<strong>Summary:</strong> ${
-        testCaseResult.summary
-          ? testCaseResult.summary.replace(/</g, "&lt;").replace(/>/g, "&gt;") // Escape angle brackets
-          : "N/A"
-      }`;
-      summaryElem.style.marginBottom = "10px";
-      detailItem.appendChild(summaryElem);
-      
-      // Add message dropdown if available
-      if (testCaseResult.message) {
-        const messageButton = document.createElement("button");
-        messageButton.textContent = "Show Message";
-        const messageElem = document.createElement("p");
-        messageElem.textContent = testCaseResult.message;
-        messageElem.style.display = "none"; // Initially hidden
-
-        // Toggle message visibility
-        messageButton.onclick = () => {
-          messageElem.style.display =
-            messageElem.style.display === "none" ? "block" : "none";
-        };
-
-        detailItem.appendChild(messageButton);
-        detailItem.appendChild(messageElem);
-      }
-
-      detailItem.style.paddingBottom = "20px";
-      detailItem.style.paddingTop = "20px";
-
-      detailsElem.appendChild(detailItem);
-    });
-  } else {
-    const noDetailsElem = document.createElement("p");
-    noDetailsElem.textContent = "No additional details.";
-    detailsElem.appendChild(noDetailsElem);
-  }
-
-  // Append all elements to the details container
+  // Append general details to the container
   detailsContainer.appendChild(emailElem);
   detailsContainer.appendChild(fileNameElem);
+  detailsContainer.appendChild(createdAtElem);
   detailsContainer.appendChild(nameElem);
   detailsContainer.appendChild(statsElem);
-  detailsContainer.appendChild(toggleDetailsButton);
-  detailsContainer.appendChild(detailsElem);
+
+  // Create the table for test case results
+  const table = document.createElement("table");
+  table.classList.add("test-case-table");
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Success</th>
+        <th>Time</th>
+        <th>Summary</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  `;
+
+  const tbody = table.querySelector("tbody");
+
+  // Populate table rows
+  if (testCase.testResults?.testcases && testCase.testResults.testcases.length > 0) {
+    testCase.testResults.testcases.forEach((testCaseResult) => {
+      const row = document.createElement("tr");
+
+      // Row data
+      const nameCell = document.createElement("td");
+      nameCell.textContent = testCaseResult.name;
+
+      const successCell = document.createElement("td");
+      successCell.textContent = testCaseResult.status === "passed" ? "Yes" : "No";
+
+      const timeCell = document.createElement("td");
+      timeCell.textContent = testCaseResult.time || "N/A";
+
+      const summaryCell = document.createElement("td");
+      summaryCell.textContent = testCaseResult.summary || "N/A";
+
+      // Append cells to the row
+      row.appendChild(nameCell);
+      row.appendChild(successCell);
+      row.appendChild(timeCell);
+      row.appendChild(summaryCell);
+
+      // Add click event to show popup on row click
+      row.onclick = () => showTestCasePopup(testCaseResult);
+
+      tbody.appendChild(row);
+    });
+  } else {
+    const noResultsRow = document.createElement("tr");
+    const noResultsCell = document.createElement("td");
+    noResultsCell.colSpan = 4;
+    noResultsCell.textContent = "No test results available";
+    noResultsRow.appendChild(noResultsCell);
+    tbody.appendChild(noResultsRow);
+  }
+
+  detailsContainer.appendChild(table);
+}
+
+// Function to show the popup with detailed information
+function showTestCasePopup(testCaseResult) {
+  // Create a popup container
+  const popupContainer = document.createElement("div");
+  popupContainer.classList.add("popup-container");
+
+  // Create a popup content area
+  const popupContent = document.createElement("div");
+  popupContent.classList.add("popup-content");
+
+  // Close button for the popup
+  const closeButton = document.createElement("button");
+  closeButton.classList.add("popup-close-btn");
+  closeButton.textContent = "X";
+
+  // Create the details for the popup
+  const nameElem = document.createElement("p");
+  nameElem.innerHTML = `<strong>Name:</strong> ${testCaseResult.name}`;
+
+  const statusElem = document.createElement("p");
+  statusElem.innerHTML = `<strong>Status:</strong> ${testCaseResult.status}`;
+
+  const timeElem = document.createElement("p");
+  timeElem.innerHTML = `<strong>Time:</strong> ${testCaseResult.time || "N/A"}`;
+
+  const summaryElem = document.createElement("p");
+  summaryElem.innerHTML = `<strong>Summary:</strong> ${
+    testCaseResult.summary || "N/A"
+  }`;
+
+  const messageElem = document.createElement("p");
+  messageElem.innerHTML = `<strong>Error Message:</strong> ${
+    testCaseResult.message || "No message available"
+  }`;
+
+  // Append everything to the popup content
+  popupContent.appendChild(closeButton);
+  popupContent.appendChild(nameElem);
+  popupContent.appendChild(statusElem);
+  popupContent.appendChild(timeElem);
+  popupContent.appendChild(summaryElem);
+  popupContent.appendChild(messageElem);
+
+  // Append the popup content to the popup container
+  popupContainer.appendChild(popupContent);
+
+  // Append the popup container to the body
+  document.body.appendChild(popupContainer);
+
+  // Display the popup
+  popupContainer.style.display = "flex";
+
+  // Close the popup when clicking outside the popup content
+  popupContainer.addEventListener("click", function (event) {
+    if (event.target === popupContainer) {
+      popupContainer.style.display = "none"; // Close the popup
+    }
+  });
+
+  // Close the popup when the close button is clicked
+  closeButton.addEventListener("click", function () {
+    popupContainer.style.display = "none"; // Close the popup
+  });
 }
 
 // Initialize the dashboard on page load
