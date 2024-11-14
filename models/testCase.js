@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose"); // Add this line to import mongoose
 
 const testCaseSchema = new mongoose.Schema(
   {
@@ -13,10 +13,11 @@ const testCaseSchema = new mongoose.Schema(
       testcases: [
         {
           name: String,
-          browserType:String,
+          browserType: String,
           status: String,
           message: String,
           time: String,
+          summary: String, // Include summary here in each test case
         },
       ],
     },
