@@ -210,7 +210,7 @@ function displayTestCaseDetails(testCase) {
   createdAtElem.innerHTML = `<strong>Created At:</strong> ${testCase.createdAt}`;
 
   const nameElem = document.createElement("p");
-  nameElem.innerHTML = `<strong>Summary:</strong> ${
+  nameElem.innerHTML = `<strong>Name:</strong> ${
     testCase.testResults?.name || "No name available"
   }`;
 
@@ -365,13 +365,28 @@ function showTestCasePopup(testCaseResult) {
   const statusElem = document.createElement("p");
   statusElem.innerHTML = `<strong>Status:</strong> ${testCaseResult.status}`;
 
+  const browserTypeElem=document.createElement("P");
+  browserTypeElem.innerHTML=`<strong>BrowserType:</strong> ${testCaseResult.browserType || "N/A"}`;
+
   const timeElem = document.createElement("p");
   timeElem.innerHTML = `<strong>Time:</strong> ${testCaseResult.time || "N/A"}`;
 
   const summaryElem = document.createElement("p");
-  summaryElem.innerHTML = `<strong>Summary:</strong> ${
-    testCaseResult.summary || "N/A"
-  }`;
+
+const boldText = document.createElement("strong");
+boldText.textContent = "Summary:";
+
+const normalText = document.createElement("span");
+normalText.textContent = ` ${testCaseResult.summary || "N/A"}`;
+
+// Append both parts to the summary element
+summaryElem.appendChild(boldText);
+summaryElem.appendChild(normalText);
+
+
+
+
+  
 
   const messageElem = document.createElement("p");
   messageElem.innerHTML = `<strong>Error Message:</strong> ${
@@ -383,6 +398,7 @@ function showTestCasePopup(testCaseResult) {
   popupContent.appendChild(nameElem);
   popupContent.appendChild(statusElem);
   popupContent.appendChild(timeElem);
+  popupContent.appendChild(browserTypeElem);
   popupContent.appendChild(summaryElem);
   popupContent.appendChild(messageElem);
 
