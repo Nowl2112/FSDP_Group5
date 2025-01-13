@@ -1,3 +1,5 @@
+
+
 let testCases = []; // Declare testCases globally
 let myChart;
 async function fetchTestCases() {
@@ -376,8 +378,29 @@ function showTestCasePopup(testCaseResult) {
 const boldText = document.createElement("strong");
 boldText.textContent = "Summary:";
 
+async function generateSummary(message) {
+  const response = await fetch('/api/generate-summary', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message })
+  });
+  
+  if (!response.ok) {
+    console.error('Error fetching summary');
+    return 'Error fetching summary';
+  }
+  
+  const data = await response.json();
+  return data.summary;
+}
+
 const normalText = document.createElement("span");
-normalText.textContent = ` ${testCaseResult.summary || "N/A"}`;
+
+generateSummary(testCaseResult.message).then(aisummary => {
+  normalText.textContent = aisummary || "N/A";
+});
+
+
 
 // Append both parts to the summary element
 summaryElem.appendChild(boldText);
