@@ -411,7 +411,6 @@ async function generateSummary(message) {
   return data.summary;
 }
 
-const normalText = document.createElement("span");
 
 generateSummary(testCaseResult.message).then(aisummary => {
   normalText.textContent = aisummary || "N/A";
@@ -434,12 +433,22 @@ summaryElem.appendChild(normalText);
     testCaseResult.message || "No message available"
   }`;
 
+  const suggestSolutionButton = document.createElement("button");
+  suggestSolutionButton.classList.add("suggest-solution-btn");
+  suggestSolutionButton.textContent = "suggest solution";
+  
+  // Redirect to another page when clicked
+  suggestSolutionButton.addEventListener("click", function () {
+    window.location.href = `aipage.html`;
+  });
+
   popupContent.appendChild(closeButton);
   popupContent.appendChild(nameElem);
   popupContent.appendChild(statusElem);
   popupContent.appendChild(timeElem);
   popupContent.appendChild(browserTypeElem);
   popupContent.appendChild(summaryElem);
+  popupContent.appendChild(suggestSolutionButton);
   popupContent.appendChild(messageElem);
 
   popupContainer.appendChild(popupContent);

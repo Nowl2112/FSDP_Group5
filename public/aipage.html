@@ -1,20 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI helper</title>
-    <link rel="stylesheet" href="css/aipage.css" />
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/aipage.css">
+  <title>AI Solution Resolver</title>
 </head>
 <body>
-    <div id="ai-solution">
+  <!-- Navbar Section -->
+  <div class="navbar">
+    <img src="/images/ocbc-logo.png" alt="Logo" class="logo">
+    <a href="homepage.html">Home</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="upload.html">Upload</a>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="content">
+    <h2>AI Solution Resolver</h2>
+
+    <!-- Input Section -->
+    <div class="upload-box-container">
+      <div class="upload-box">
         <h3>Enter your error message:</h3>
         <textarea id="errorMessage" placeholder="Describe your error..."></textarea>
-        <button id="getsolution">Get Solution</button>
-        <h4>Suggested Solution:</h4>
-        <span id="solutionText">N/A</span>
-      </div>      
+        <button id="getsolution" class="upload-btn">Get Solution</button>
+      </div>
+    </div>
+
+    <!-- Solution Display Section -->
+    <div class="upload-box-container">
+      <h4>Suggested Solution:</h4>
+      <span id="solutionText">N/A</span>
+    </div>
+  </div>
+
+  <script src="js/aipage.js"></script>
 </body>
-<script src="js/aipage.js"></script>
 </html>

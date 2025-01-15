@@ -386,3 +386,16 @@ body {
 .popup-content::-webkit-scrollbar-thumb:hover {
   background: #a0a0a0;
 }
+.suggest-solution-btn {
+  padding: 10px 20px;
+  background-color: #d41f3a;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.suggest-solution-btn:hover {
+  background-color: #991b1b;
+}
