@@ -1,4 +1,5 @@
 
+
 let testCases = []; // Declare testCases globally
 let myChart;
 let myChart2;
@@ -384,12 +385,49 @@ function showTestCasePopup(testCaseResult) {
   timeElem.innerHTML = `<strong>Time:</strong> ${testCaseResult.time || "N/A"}`;
 
   const summaryElem = document.createElement("p");
+
   const boldText = document.createElement("strong");
   boldText.textContent = "Summary:";
   const normalText = document.createElement("span");
   normalText.textContent = ` ${testCaseResult.summary || "N/A"}`;
   summaryElem.appendChild(boldText);
   summaryElem.appendChild(normalText);
+
+
+
+async function generateSummary(message) {
+  const response = await fetch('/api/generate-summary', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message })
+  });
+  
+  if (!response.ok) {
+    console.error('Error fetching summary');
+    return 'Error fetching summary';
+  }
+  
+  const data = await response.json();
+  return data.summary;
+}
+
+const normalText = document.createElement("span");
+
+generateSummary(testCaseResult.message).then(aisummary => {
+  normalText.textContent = aisummary || "N/A";
+});
+
+
+
+// Append both parts to the summary element
+summaryElem.appendChild(boldText);
+summaryElem.appendChild(normalText);
+
+
+
+
+  
+
 
   const messageElem = document.createElement("p");
   messageElem.innerHTML = `<strong>Error Message:</strong> ${

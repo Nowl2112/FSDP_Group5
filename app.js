@@ -1,4 +1,6 @@
 const express = require("express");
+const OpenAI = require('openai');
+const openai = new OpenAI({ apiKey:'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' });
 const bodyParser = require("body-parser");
 const sql = require("mssql");
 const mongoose = require("mongoose");
@@ -19,6 +21,7 @@ const port = 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.use(express.json());
 
 //User
 app.get("/user", userController.getAllUser);
@@ -129,6 +132,29 @@ app.get("/test-cases", async (req, res) => {
     res.status(500).json({ message: "Error retrieving test cases", error });
   }
 });
+
+app.post("/api/generate-summary", async (req, res) => {
+  const { message } = req.body;  // Extract the message sent from frontend
+
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",  // Use a chat model
+      messages: [
+        { role: "user", content: message.concat("Only reply with a summary of the error message and nothing else, if no error just reply with no error") }  // Send the user's message
+      ],
+      temperature: 0.2,
+      max_tokens: 1024,
+      top_p: 0.7
+    });
+
+    const aiSummary = response.choices[0].message.content.trim();  // Get the AI's response
+    res.json({ summary: aiSummary });  // Return the summary to frontend
+  } catch (error) {
+    console.error('Error generating summary:', error);
+    res.status(500).json({ message: "Error generating summary" });
+  }
+});
+
 
 // Start the server and connect to the database
 app.listen(port, async () => {
