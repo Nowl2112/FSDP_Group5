@@ -1,6 +1,6 @@
 const express = require("express");
 const OpenAI = require('openai');
-const openai = new OpenAI({ apiKey:'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' });
+const openai = new OpenAI({ apiKey:'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' });
 const bodyParser = require("body-parser");
 const sql = require("mssql");
 const mongoose = require("mongoose");
@@ -154,6 +154,28 @@ app.post("/api/generate-summary", async (req, res) => {
     res.status(500).json({ message: "Error generating summary" });
   }
 });
+app.post("/api/generate-solution", async (req, res) => {
+  const { message } = req.body;  // Extract the message sent from frontend
+
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",  // Use a chat model
+      messages: [
+        { role: "user", content: message.concat("Only reply with a suggested solution of the error message ") }  // Send the user's message
+      ],
+      temperature: 0.2,
+      max_tokens: 1024,
+      top_p: 0.7
+    });
+
+    const aiSolution = response.choices[0].message.content.trim();  // Get the AI's response
+    res.json({ solution: aiSolution });  // Return the summary to frontend
+  } catch (error) {
+    console.error('Error generating solution:', error);
+    res.status(500).json({ message: "Error generating solution" });
+  }
+});
+
 
 
 // Start the server and connect to the database
