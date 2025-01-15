@@ -2,62 +2,100 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  margin-bottom: 10px;
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
 }
 
 .navbar {
   display: flex;
-  justify-content: center; 
+  justify-content: center;
   align-items: center;
-  margin-top: -20px;
-  margin-bottom: -20px;
+  padding: 1rem 2.5%;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .navbar .logo {
-  margin-right: auto; /* Push the logo to the left */
-  width: 200px; /* Adjust logo size */
+  margin-right: auto;
+  width: 200px;
 }
 
 .navbar a {
-  margin-left: 20px;
-  margin-right: 20px;
+  margin: 0 20px;
   text-decoration: none;
-  color: #000; /* Change to preferred color */
-  font-weight: bold;
-  font-size: 25px;
+  color: #333;
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
 }
 
 .navbar a:hover {
-  color: #e62845; /* Change to preferred hover color */
+  color: #e62845;
 }
+
 .dashboard-container {
   display: flex;
-  height: calc(100vh - 60px); /* Adjust for navbar height */
+  height: calc(100vh - 60px);
+  background-color: #f5f5f5;
 }
 
 .sidebar {
   min-width: 300px;
   width: 300px;
   background-color: white;
-  padding: 15px;
+  padding: 1.5rem;
   overflow-y: auto;
-  border-top: solid rgb(129, 129, 129) 2px;
+  border-right: 1px solid #eee;
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Improved scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #999;
 }
 
 .sidebar h2 {
   color: #333;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
 }
 
 #search-bar {
   width: 100%;
-  padding: 8px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  padding: 0.8rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#search-bar:focus {
+  outline: none;
+  border-color: #e62845;
+  box-shadow: 0 0 0 3px rgba(230, 40, 69, 0.1);
 }
 
 #test-case-list {
@@ -66,273 +104,285 @@ body {
 }
 
 #test-case-list li {
-  background-color: #cc1934;
-  color: white;
-  padding: 15px;
-  margin-bottom: 10px;
+  padding: 1rem;
+  margin-bottom: 0.8rem;
+  background-color: #f8f8f8;
+  border-radius: 8px;
   cursor: pointer;
-  border-radius: 5px;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
 }
 
-#test-case-list li:hover {
-  background-color: #c02038;
+#test-case-list li:hover,
+#test-case-list li.active {
+  background-color: #e62845;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
 
 .content {
   flex-grow: 1;
-  padding: 20px;
-  background-color: #cc1934;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column; 
-  
+  padding: 2rem;
+  background-color: #f5f5f5;
 }
 
 .content h2 {
-  padding-bottom: 30px;
-  color:#fff ;
+  color: #333;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
 }
 
 #test-case-details {
-  width: 90%;
-  height: 90%;
-  background-color: #e6e6e6;
-  padding: 20px;
-  border-radius: 10px;
-  overflow-y: auto;
-}
-#test-case-details li {
-  width: 90%;
-  height: 90%;
-  background-color: #d0d0d0;
-  padding: 20px;
-  border-radius: 10px;
-  overflow-y: auto;
-}
-
-/* Dropdown button styling */
-button {
-  width: 50%; /* Make the button fit the full width of its container */
-  padding: 10px;
-  margin-top: 10px;
-  background-color: #c02038; /* Button color */
-  color: #fff; /* Text color */
-  font-size: 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #a01b2f; /* Hover color */
-}
-
-button:focus {
-  outline: none;
-}
-
-/* Styling for failure/details container */
-ul#failure-details,
-ul#details {
-  width: 100%;
-  background-color: #f2f2f2; /* Background color for details */
-  padding: 10px;
-  margin-top: 10px;
-  border-radius: 5px;
-  display: none; /* Initially hidden, toggled by JavaScript */
-}
-
-/* Ensuring all text and list items inside details are aligned properly */
-ul#failure-details li,
-ul#details li {
-  font-size: 14px;
-  color: #333;
-  padding: 5px 0;
-}
-
-ul#failure-details p,
-ul#details p {
-  margin: 5px 0;
-}
-li {
-  padding-bottom: 20px;
-}
-#test-case-button {
-  padding-bottom: 20px;
-}
-
- /* #chart-container
-{
-  margin-right:65%;
-  width:25%;
-  height:auto;
-  background-color: rgb(252, 139, 139);
-  border-radius: 5%;
-  padding:2%;
-  display:none;
-  border:solid black;
-} */
-
-.test-case-amount-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 99%;
-  margin-bottom: 20px;
-  gap:1%;
-  display:none;
-}
-
-.chart-container,
-.test-case-amount,
-.passing-rate {
-  width: 30%;
-  height: 350px; /* Set a fixed height */
   background-color: white;
-  border: solid rgb(0, 0, 0);
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5%;
-
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
-.chart-container {
-  /* background-color: rgb(252, 139, 139); */
-  padding: 2%;
-  /* border: solid black; */
-}
-
-.test-case-amount h3,
-.passing-rate h3 {
-  margin-top: 0;
-}
-
-.test-case-amount span,
-.passing-rate span {
-  font-size: 36px;
-  font-weight: bold;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-.test-case-table th, .test-case-table td {
-  padding: 10px;
-  border: 1px solid #999;
-  text-align: left;
+/* Improved table styling */
+.test-case-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 1.5rem;
 }
 
 .test-case-table th {
-  background-color: #999;
+  background-color: #f8f8f8;
+  color: #666;
+  font-weight: 600;
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 2px solid #eee;
 }
 
-.test-case-table tr:nth-child(even) {
-  background-color: #9f9f9f9f;
-}
-.test-case-table tr:nth-child(even) {
-  background-color: #aaa;
-}
-
-.test-case-table tr:hover {
-  background-color: #9d9d9d9d;
+.test-case-table td {
+  padding: 1.2rem 1rem;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.2s ease;
 }
 
-/* Styling for Popup */
+.test-case-table tr:hover td {
+  background-color: #f8f8f8;
+}
+
+/* Status icons styling */
+.success_img, .failure_img {
+  width: 32px;
+  height: 32px;
+  transition: transform 0.2s ease;
+}
+
+.success_img:hover, .failure_img:hover {
+  transform: scale(1.1);
+}
+
+/* Metrics containers styling */
+.test-case-amount-container {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.test-case-amount, .passing-rate, .avg-time{
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  flex: 1;
+  min-height: 250px;
+  min-width:250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+ 
+.chart-container {
+  background-color: white;
+  padding: 1.5rem;
+  padding-bottom: 5.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  flex: 1;
+  min-height: 250px;
+  min-width:250px;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+ 
+}
+.test-case-amount, .passing-rate, .avg-time {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  flex: 1;
+  min-height: 250px;
+  max-height:150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chart-container h3,
+.test-case-amount h3, 
+.passing-rate h3 ,
+.avg-time h3{
+  color: #666;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  width: 100%;
+  text-align: center;
+}
+
+.test-case-amount span, 
+.passing-rate span,
+.avg-time span{
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+#chart-container {
+  flex-grow: 1;
+  width: 100%;
+  height: auto;
+}
+
+
+
+
+
+/* Popup Container */
 .popup-container {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
   display: none;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
-  overflow: hidden; /* Prevents the scroll from affecting the popup container */
+  z-index: 1000;
+  padding: 20px;
 }
 
-/* Prevent horizontal scrolling in the popup */
+/* Popup Content */
 .popup-content {
   background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  width: 60%;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
   max-width: 600px;
-  max-height: 80%;
-  overflow-y: auto; /* Only vertical scrolling */
-  overflow-x: hidden; /* Prevent horizontal scrolling */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   position: relative;
-  word-wrap: break-word; /* Ensure text wraps inside the popup */
-  display: flex;
-  flex-direction: column;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  animation: popupFadeIn 0.3s ease-out;
 }
 
-/* Make sure the popup content itself keeps the rounded corners while scrolling */
+/* Animation for popup appearance */
+@keyframes popupFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Close Button */
+.popup-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #e62845;
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.popup-close-btn:hover {
+  background-color: #d41f3a;
+  transform: scale(1.05);
+}
+
+/* Popup Content Styling */
+.popup-content p {
+  margin-bottom: 1rem;
+  line-height: 1.5;
+  color: #333;
+}
+
+.popup-content strong {
+  color: #111;
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+/* Status Badges */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.status-badge.passed {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.status-badge.failed {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.status-badge.error {
+  background-color: #fff3cd;
+  color: #664d03;
+}
+
+.status-badge.skipped {
+  background-color: #f3f4f6;
+  color: #4b5563;
+}
+
+/* Scrollbar styling for popup content */
 .popup-content::-webkit-scrollbar {
   width: 8px;
 }
 
-.popup-content::-webkit-scrollbar-thumb {
-  background-color: darkgrey;
-  border-radius: 10px;
-}
-
 .popup-content::-webkit-scrollbar-track {
   background: #f1f1f1;
+  border-radius: 4px;
 }
 
-/* Styling for Popup Close Button */
-.popup-close-btn {
-  background-color: #c02038; /* Background color of the button */
-  color: white; /* Text color */
-  border: none;
-  width: 30px; /* Size of the button */
-  height: 30px; /* Ensure it's a circle */
-  border-radius: 50%; /* Make it circular */
-  font-size: 20px; /* Adjust the size of the 'X' */
-  display: flex;
-  align-items: center;
-  justify-content: center; /* Center the 'X' */
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+.popup-content::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  border-radius: 4px;
 }
 
-.popup-close-btn:hover {
-  background-color: #a01b2f; /* Hover color */
+.popup-content::-webkit-scrollbar-thumb:hover {
+  background: #a0a0a0;
 }
-
-.popup-close-btn:focus {
-  outline: none;
-}
-
-.popup-container .popup-content p {
-  margin: 10px 0;
-}
-
-/* To allow the user to close the popup by clicking the background */
-.popup-container:hover {
-  cursor: pointer;
-}
-
-.popup-container .popup-content:hover {
-  cursor: auto;
-}
-
