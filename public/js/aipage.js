@@ -2,6 +2,7 @@ let message =""
 
 
 async function generateSolution(message) {
+  console.log("hello")
     const response = await fetch('/api/generate-solution', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

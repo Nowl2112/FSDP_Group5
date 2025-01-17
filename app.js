@@ -1,6 +1,6 @@
 const express = require("express");
 const OpenAI = require('openai');
-const openai = new OpenAI({ apiKey:'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' });
+const openai = new OpenAI({ apiKey:'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' });
 const bodyParser = require("body-parser");
 const sql = require("mssql");
 const mongoose = require("mongoose");
