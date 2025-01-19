@@ -15,6 +15,10 @@ const dbURI =
   "mongodb+srv://Chimken:FMGSOzqLy1SegpFI@fsdpassignment.p4h2x.mongodb.net/";
 const TestCase = require("./models/testCase");
 
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const cookieParser = require("cookie-parser");
+
 const app = express();
 const port = 3000;
 
@@ -22,6 +26,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(express.json());
+app.use(cookieParser());
 
 //User
 app.get("/user", userController.getAllUser);
@@ -155,6 +160,15 @@ app.post("/api/generate-summary", async (req, res) => {
   }
 });
 
+app.get("/set-cookie", (req, res) => {
+  res.cookie("testCookie", "cookieValue", { httpOnly: true }); // Set a test cookie
+  res.send("Cookie has been set!");
+});
+
+app.get("/get-cookie", (req, res) => {
+  const testCookie = req.cookies.testCookie; // Retrieve the test cookie
+  res.send(`Cookie value: ${testCookie || "No cookie found"}`);
+});
 
 // Start the server and connect to the database
 app.listen(port, async () => {
