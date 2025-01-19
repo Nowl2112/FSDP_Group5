@@ -103,7 +103,7 @@ body {
   padding: 0;
 }
 
-#test-case-list li {
+/* #test-case-list li {
   padding: 1rem;
   margin-bottom: 0.8rem;
   background-color: #f8f8f8;
@@ -111,15 +111,16 @@ body {
   cursor: pointer;
   transition: all 0.2s ease;
   border: 1px solid transparent;
-}
+} */
 
-#test-case-list li:hover,
+/* #test-case-list li:hover,
 #test-case-list li.active {
   background-color: #e62845;
   color: white;
   transform: translateY(-2px);
+
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+} */
 
 
 .content {
@@ -398,4 +399,317 @@ body {
 
 .suggest-solution-btn:hover {
   background-color: #991b1b;
+}
+
+.status-filter {
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 0.8rem;
+  margin-bottom:5%;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.status-filter:focus {
+  outline: none;
+  border-color: #e62845;
+  box-shadow: 0 0 0 3px rgba(230, 40, 69, 0.1);
+}
+
+.status-filter:hover {
+  border-color: #e62845;
+}
+
+/* Existing CSS remains the same until #test-case-list li */
+
+#test-case-list li {
+  padding: 1rem;
+  margin-bottom: 0.8rem;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  position: relative; /* Added for absolute positioning of button */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#test-case-list li:hover,
+#test-case-list li.active {
+  background-color: #e62845;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* New styles for the delete button */
+/* .test-case-delete-btn {
+  opacity: 0;
+  background-color: #e62845;
+  border: none;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.1s ease;
+  margin-left: 8px;
+} */
+
+/* #test-case-list li:hover .test-case-delete-btn {
+  opacity: 1;
+} */
+
+#test-case-list li.active .test-case-delete-btn {
+  color: #e62845;
+  background-color: #e62845;
+}
+
+.test-case-delete-btn:hover {
+  background-color: #e62845;
+  transform: scale(1.05);
+}
+
+/* Ensure the test case name doesn't overflow */
+.test-case-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: 8px;
+}
+
+.test-case-delete-btn svg {
+  stroke: #e62845; /* Default color */
+  transition: stroke 0.2s ease; /* Match the transition timing */
+}
+
+#test-case-list li:hover .test-case-delete-btn svg g{
+  stroke: white; /* Change to white when parent li is hovered */
+}
+
+.test-case-delete-btn:hover {
+  transform: scale(1.05);
+}
+
+#test-case-list li {
+  padding: 1rem;
+  margin-bottom: 0.8rem;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#test-case-list li:hover,
+#test-case-list li.active {
+  background-color: #e62845;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.test-case-delete-btn {
+  opacity: 0;
+  background: transparent; /* Changed to transparent */
+  border: none;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: opacity 0.2s ease; /* Match the transition timing */
+  margin-left: 8px;
+}
+
+#test-case-list li:hover .test-case-delete-btn {
+  opacity: 1;
+}
+
+/* Modal Container */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Modal Container */
+.modal {
+  display: none; /* Default state is hidden */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh; /* Changed to viewport height */
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+/* Active state for modal */
+.modal.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px;
+  position: relative;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  animation: modalFadeIn 0.3s ease-out;
+  margin-left: auto;
+  margin-right:auto;
+  margin-top:5%;
+}
+
+/* Modal Header */
+.modal-content h3 {
+  color: #333;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+/* Modal Options Section */
+.modal-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.modal-options > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Label Styling */
+.modal-options label {
+  color: #666;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* Input Styling */
+.modal input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.modal input:focus {
+  outline: none;
+  border-color: #e62845;
+  box-shadow: 0 0 0 3px rgba(230, 40, 69, 0.1);
+}
+
+/* Modal Actions Container */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Button Styling */
+.modal button {
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#save-settings-btn {
+  background-color: #e62845;
+  color: white;
+}
+
+#save-settings-btn:hover {
+  background-color: #d41f3a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#cancel-settings-btn {
+  background-color: #f5f5f5;
+  color: #666;
+}
+
+#cancel-settings-btn:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#delete-btn {
+  background-color: #fee2e2;
+  color: #991b1b;
+  align-self: flex-start;
+}
+
+#delete-btn:hover {
+  background-color: #991b1b;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Animation for modal appearance */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scrollbar styling for modal content */
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 6px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background: #999;
 }

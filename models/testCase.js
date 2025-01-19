@@ -4,6 +4,7 @@ const testCaseSchema = new mongoose.Schema(
   {
     userEmail: { type: String, required: true },
     fileName: { type: String, required: true },
+    category:{type : String , required: true , default: "None"},
     testResults: {
       name: String,
       tests: String,

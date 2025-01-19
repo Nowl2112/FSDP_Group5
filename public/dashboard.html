@@ -16,23 +16,28 @@
       <a href="dashboard.html">Dashboard</a>
       <a href="upload.html">Upload</a>
     </div>
-
+    
     
     <div class="dashboard-container">
       <div class="sidebar">
         <h2>Test Cases</h2>
         <input type="text" id="search-bar" placeholder="Search by file name" />
+        <select id="status-filter" class="status-filter">
+          <option value="all">All Tests</option>
+          <option value="passed">Passed Tests</option>
+          <option value="failed">Failed Tests</option>
+        </select>
         <ul id="test-case-list"></ul>
       </div>
       <div class="content">
         
         <div class="test-case-amount-container" id = "test-case-amount-container">
         <div class="chart-container">
-          <h3>Chart</h3>
+          <!-- <h3>Chart</h3> -->
           <canvas id="chart-container"></canvas>
         </div>
         <div class="chart-container">
-          <h3>Chart</h3>
+          <!-- <h3>Chart</h3> -->
           <canvas id="chart-container2"></canvas>
         </div>
       </div>
@@ -59,6 +64,34 @@
         <h2>Test Case Details</h2>
         <div id="test-case-details">
           <p>Select a test case to view details.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="settings-modal" class="modal">
+      <div class="modal-content">
+        <h3>Settings for <span id="modal-test-case-name"></span></h3>
+        <div class="modal-options">
+          <!-- Rename Option -->
+          <div>
+            <label for="rename-input">Rename:</label>
+            <input type="text" id="rename-input" placeholder="New name" />
+          </div>
+    
+          <!-- Custom Category Option -->
+          <div>
+            <label for="category-input">Category:</label>
+            <input type="text" id="category-input" placeholder="Enter custom category" />
+          </div>
+    
+          <!-- Delete Option -->
+          <button id="delete-btn">Delete</button>
+    
+          <!-- Actions -->
+          <div class="modal-actions">
+            <button id="cancel-settings-btn">Cancel</button>
+            <button id="save-settings-btn">Save Changes</button>
+          </div>
         </div>
       </div>
     </div>
