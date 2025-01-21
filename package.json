@@ -10,9 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.7.9",
     "body-parser": "^1.20.3",
+    "cheerio": "^1.0.0",
     "child": "^0.0.3",
     "child_process": "^1.0.2",
+    "dotenv": "^16.4.7",
     "express": "^4.21.1",
     "express-fileupload": "^1.5.1",
     "joi": "^17.13.3",

@@ -90,6 +90,14 @@ textarea:focus {
   border-color: #e62845;
   box-shadow: 0px 0px 6px rgba(230, 40, 69, 0.5);
 }
+#urlInput {
+  height: auto;
+  line-height: 1.5; 
+  overflow: hidden;
+  resize: none; 
+  margin: 0;
+}
+
 
 .upload-btn {
   padding: 12px 30px;
