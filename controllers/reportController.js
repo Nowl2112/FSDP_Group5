@@ -43,12 +43,66 @@ const getTestCases = async (req, res) => {
     const testCases = await TestCase.find();
     res.status(200).json(testCases);
   } catch (err) {
-    console.error(err);
+    console.error(err); 
     res.status(500).json({ message: "Error fetching test cases" });
   }
 };
 
+const deleteTestCase = async(id)=>
+{
+  try{
+    const result = await TestCase.findByIdAndDelete(id);
+    return result;
+
+  }
+  catch(err)
+  {
+    console.error(err);
+  }
+}
+
+const renameFileName = async(id,name) =>
+{
+  try{
+
+    const testCase = await TestCase.findById(id)
+    if(!testCase)
+    {
+      return res.status(404).json({message: "Testcase not found"});
+    }
+    testCase.fileName = name;
+    const updatedTestCase = await testCase.save();
+    return updatedTestCase;
+  }
+  catch(err)
+  {
+    console.error(err);
+  }
+}
+
+const addCategory = async(ID, Category) =>
+{
+  try
+  {
+    const testCase = await TestCase.findById(ID)
+    if(!testCase)
+    {
+      return res.status(404).json({message: "Testcase not found"});
+    }
+    testCase.category = Category;
+    const updatedTestCase = await testCase.save();
+    return updatedTestCase;
+  }
+  catch(err)
+  {
+    console.error(err);
+  } 
+}
+
 module.exports = {
   createTestCase,
   getTestCases,
+  deleteTestCase,
+  renameFileName,
+  addCategory,
 };

@@ -10,10 +10,12 @@ const fileUpload = require("express-fileupload");
 const fs = require("fs");
 const path = require("path");
 const userController = require("./controllers/userController");
+const testCaseController = require("./controllers/reportController");
 const utils = require("./utilities/utils");
 const dbURI =
   "mongodb+srv://Chimken:FMGSOzqLy1SegpFI@fsdpassignment.p4h2x.mongodb.net/";
 const TestCase = require("./models/testCase");
+const testCase = require("./models/testCase");
 
 const app = express();
 const port = 3000;
@@ -45,15 +47,15 @@ app.post("/run-tests", (req, res) => {
     });
   });
 });
-app.delete("/test-cases", async (req, res) => {
-  try {
-    const result = await TestCase.deleteMany({});
-    res.status(200).json({ message: "All test cases deleted successfully", deletedCount: result.deletedCount });
-  } catch (error) {
-    console.error("Error deleting test cases:", error);
-    res.status(500).json({ message: "Error deleting test cases", error });
-  }
-});
+// app.delete("/test-cases", async (req, res) => {
+//   try {
+//     const result = await TestCase.deleteMany({});
+//     res.status(200).json({ message: "All test cases deleted successfully", deletedCount: result.deletedCount });
+//   } catch (error) {
+//     console.error("Error deleting test cases:", error);
+//     res.status(500).json({ message: "Error deleting test cases", error });
+//   }
+// });
 
 app.post("/upload", (req, res) => {
   const fileContent = req.body.content;
@@ -90,6 +92,7 @@ app.post("/upload", (req, res) => {
         const newTestCase = new TestCase({
           userEmail: userEmail,
           fileName: fileName,
+          category: "None",
           testResults: result,
           testcases: result.testcases.map((testCase) => ({
             name: testCase.name,
@@ -132,6 +135,76 @@ app.get("/test-cases", async (req, res) => {
     res.status(500).json({ message: "Error retrieving test cases", error });
   }
 });
+
+app.delete("/test-cases/:id",async(req,res)=>
+{
+  try
+  {
+    const {id} = req.params;
+    const result = await testCaseController.deleteTestCase(id);
+    if(!result)
+    {
+      res.status(500).json({ message: "Error deleting test cases"});
+    }
+    else
+    {
+      res.status(200).json({ message: "Success deleting test cases"});
+
+    }
+  }
+  catch(error)
+  {
+    console.error(error);
+    res.status(500).json({ message: "Error deleting test cases", error });
+
+  }
+});
+
+app.post("/file/rename",async(req,res)=>
+{
+  try
+  {
+    const {id,name} = req.body;
+    const result = await testCaseController.renameFileName(id,name);
+    if(!result)
+      {
+        res.status(500).json({ message: "Error renaming fileName"});
+      }
+      else
+      {
+        res.status(200).json({ message: "Successfully renamed"});
+  
+      }
+  }
+  catch(err)
+  {
+    console.error(err);
+    res.status(500).json({message:"Error renaming"}, err)
+  }
+})
+
+app.post("/file/category", async(req,res)=>
+{
+  try
+  {
+    const {id,category} = req.body;
+    const result = await testCaseController.addCategory(id,category);
+    if(!result)
+      {
+        res.status(500).json({ message: "Error naming category"});
+      }
+      else
+      {
+        res.status(200).json({ message: "Successful"});
+  
+      }
+  }
+  catch(err)
+  {
+    console.error(err);
+    res.status(500).json({message:"Error naming category"}, err)
+  }
+})
 
 app.post("/api/generate-summary", async (req, res) => {
   const { message } = req.body;  // Extract the message sent from frontend
