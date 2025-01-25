@@ -1,7 +1,7 @@
 const express = require("express");
 const OpenAI = require('openai');
 require('dotenv').config();
-const apiKeyStore = process.env.API_KEY;
+const apiKeyStore = process.env.OPENAI_API_KEY;
 
 const openai = new OpenAI({ apiKey:apiKeyStore });
 const bodyParser = require("body-parser");
@@ -238,7 +238,7 @@ app.post("/api/generate-solution", async (req, res) => {
     // Step 1: Fetch the website content
     const response = await axios.get(url);
     const htmlContent = response.data;
-
+    console.log(htmlContent)
     // Step 2: Extract JavaScript content (optional)
     const $ = cheerio.load(htmlContent);
     let jsContent = "";
@@ -246,11 +246,11 @@ app.post("/api/generate-solution", async (req, res) => {
     // Extract JavaScript from inline <script> tags
     $("script").each((_, script) => {
       const jsCode = $(script).html();
+
       if (jsCode) {
         jsContent += jsCode + "\n";
       }
     });
-
     // Step 3: Build the AI prompt
     const userPrompt = `
       I have encountered an error in my web application. Here's the information:
@@ -282,7 +282,57 @@ app.post("/api/generate-solution", async (req, res) => {
     res.status(500).json({ message: "Error generating solution" });
   }
 });
+app.post("/api/generate-solution-file", async (req, res) => {
+  const { url, errorMessage } = req.body; // Extract URL and error message from frontend
 
+  try {
+    // Step 1: Fetch the website content
+    const response = await axios.get(url);
+    const htmlContent = response.data;
+    console.log(htmlContent)
+    // Step 2: Extract JavaScript content (optional)
+    const $ = cheerio.load(htmlContent);
+    let jsContent = "";
+
+    // Extract JavaScript from inline <script> tags
+    $("script").each((_, script) => {
+      const jsCode = $(script).html();
+
+      if (jsCode) {
+        jsContent += jsCode + "\n";
+      }
+    });
+    // Step 3: Build the AI prompt
+    const userPrompt = `
+      I have encountered an error in my web application. Here's the information:
+      - Error Message: ${errorMessage}
+      - HTML Code:
+      ${htmlContent}
+      - JavaScript Code:
+      ${jsContent}
+      Please analyze the code and the error message, and provide a solution. Only reply with fixed html and js. Nothing else.
+    `;
+
+    // Step 4: Send the request to OpenAI API
+    const aiResponse = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        { role: "user", content: userPrompt }
+      ],
+      temperature: 0.2,
+      max_tokens: 2048, // Handle larger input
+      top_p: 0.7
+    });
+
+    const aiSolution = aiResponse.choices[0].message.content.trim();
+
+    // Step 5: Return the solution to the frontend
+    res.json({ solution: aiSolution });
+  } catch (error) {
+    console.error("Error generating solution:", error);
+    res.status(500).json({ message: "Error generating solution" });
+  }
+});
 
 
 // Start the server and connect to the database
