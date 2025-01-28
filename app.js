@@ -1,5 +1,7 @@
 const express = require("express");
 const OpenAI = require('openai');
+const nodemailer = require("nodemailer");
+
 require('dotenv').config();
 const apiKeyStore = process.env.OPENAI_API_KEY;
 
@@ -23,7 +25,13 @@ const axios = require("axios"); // For making HTTP requests
 const cheerio = require("cheerio"); // For parsing and extracting HTML content
 const app = express();
 const port = 3000;
-
+const transporter = nodemailer.createTransport({
+  service: "gmail", // Use your email service
+  auth: {
+    user: '', // Your email address
+    pass: '', // Your email password or app-specific password
+  },
+});
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
@@ -111,8 +119,10 @@ app.post("/upload", (req, res) => {
           .save()
           .then((savedTestCase) => {
             console.log("Test results saved:", savedTestCase);
+            sendTestResultsEmail(userEmail, result);
             res.json(result); // Respond only once here
           })
+          
           .catch((err) => {
             console.error("Error saving test results to database:", err);
             res.status(500).json({
@@ -334,6 +344,23 @@ app.post("/api/generate-solution-file", async (req, res) => {
   }
 });
 
+const sendTestResultsEmail = (userEmail, testResults) => {
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: userEmail,
+    subject: "Test Results",
+    text: `Your test results are ready:\n\n${JSON.stringify(testResults, null, 2)}`,
+    html: `<p>Your test results are ready:</p><pre>${JSON.stringify(testResults, null, 2)}</pre>`,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error("Error sending email:", error);
+    } else {
+      console.log("Email sent:", info.response);
+    }
+  });
+};
 
 // Start the server and connect to the database
 app.listen(port, async () => {
