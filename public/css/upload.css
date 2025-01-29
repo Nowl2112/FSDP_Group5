@@ -1,4 +1,3 @@
-/* Global Styles */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -6,211 +5,222 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background-color: #e62845;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
 }
 
-
 .navbar {
-  background-color: #fff;
   display: flex;
-  justify-content: center; /* Center the navbar contents */
+  justify-content: center;
   align-items: center;
-  margin-top: -20px;
-  margin-bottom: -20px;
+  padding: 1rem 2.5%;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .navbar .logo {
-  margin-right: auto; /* Push the logo to the left */
-  width: 200px; /* Adjust logo size */
+  margin-right: auto;
+  width: 200px;
 }
 
 .navbar a {
-  margin-left: 20px;
-  margin-right: 20px;
+  margin: 0 20px;
   text-decoration: none;
-  color: #000; /* Change to preferred color */
-  font-weight: bold;
-  font-size: 25px;
+  color: #333;
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
 }
 
 .navbar a:hover {
-  color: #e62845; /* Change to preferred hover color */
+  color: #e62845;
 }
+
 .content {
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 30px;
-  background-color: #e62845;
-  padding-top: 150px;
+  background-color: #f5f5f5;
+  padding-top: 4rem;
 }
 
 .content h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
+  color: #333;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
 }
 
-/* Styles for the upload box and surrounding elements */
 .upload-box-container {
   background-color: white;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 600px;
 }
 
 .upload-box {
-  padding: 30px;
+  padding: 1.5rem;
   border: 2px dashed #e62845;
+  border-radius: 8px;
   text-align: center;
-  position: relative;
-  transition: border 0.3s;
+  transition: border-color 0.2s ease;
 }
 
 .upload-box:hover {
-  border: 2px dashed #c02038;
+  border-color: #d41f3a;
 }
 
 .upload-box .upload-icon {
-  margin-bottom: 20px;
-  font-size: 40px;
+  margin-bottom: 1.5rem;
+  font-size: 2.5rem;
   color: #e62845;
 }
 
 .upload-box p {
-  margin-bottom: 10px;
-  font-size: 16px;
-  color: #333;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  color: #666;
 }
 
 .upload-btn {
-  padding: 12px 25px;
+  padding: 0.8rem 1.5rem;
   background-color: #e62845;
   color: white;
   border: none;
-  border-radius: 5px;
-  font-size: 16px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .upload-btn:hover {
-  background-color: #c02038;
+  background-color: #d41f3a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.file-name {
-  margin-top: 10px;
-  font-size: 14px;
-  color: #333;
-}
-
-/* Test button styles */
 .test-btn {
-  padding: 15px 30px;
-  background-color: #ffffff;
-  color: black;
+  padding: 0.8rem 1.5rem;
+  background-color: white;
+  color: #333;
   border: none;
-  border-radius: 5px;
-  font-size: 18px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
   cursor: pointer;
-  margin-top: 20px;
+  margin-top: 1.5rem;
+  transition: all 0.2s ease;
 }
 
 .test-btn:hover {
-  background-color: #d1d1d1;
-}
-#fileInput {
-  display: none;
+  background-color: #f5f5f5;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Modal Background */
 .modal {
-  display: none; /* Hidden by default */
+  display: none;
   position: fixed;
-  z-index: 10;
+  z-index: 1000;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
-  justify-content: center;
-  align-items: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  padding: 10px;
 }
 
-/* Modal Content */
 .modal-content {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  text-align: center;
-  width: 300px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  width: 85%;
+  max-width: 350px;
+  max-height:25%;
+  position: relative;
+  margin: 15vh auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  animation: modalFadeIn 0.3s ease-out;
 }
 
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 .modal-content h3 {
-  font-size: 20px;
-  margin-bottom: 10px;
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
 }
-
 .modal-buttons button {
-  padding: 10px 20px;
-  margin: 10px 5px;
+  padding: 0.7rem 1.3rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
   border: none;
-  border-radius: 5px;
   cursor: pointer;
+  margin: 0.5rem;
+  transition: all 0.2s ease;
 }
 
-#uploadMoreBtn {
+#uploadMoreBtn, #errorTryAgainBtn {
   background-color: #e62845;
   color: white;
 }
 
 #viewResultsBtn {
-  background-color: #c02038;
+  background-color: #d41f3a;
   color: white;
 }
 
-#uploadMoreBtn:hover,
-#viewResultsBtn:hover,
-#errorTryAgainBtn:hover {
-  opacity: 0.9;
+.modal-buttons button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-
-#errorTryAgainBtn {
-  background-color: #e62845;
-  color: white;
-  width: 120px;
-}
-
 
 #loader {
   position: fixed;
-  top: calc(50vh - 75px);  /* 75px is half of the height (150px) */
-  left: calc(50vw - 75px); /* 75px is half of the width (150px) */
-  border: 16px solid #f3f3f3;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 8px solid #f5f5f5;
   border-radius: 50%;
-  border-top: 16px solid rgb(255, 0, 0);
-  width: 150px;
-  height: 150px;
-  animation: spin 2s linear infinite;
-  z-index: 9999;
-  display:none;
+  border-top: 8px solid #e62845;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+  z-index: 1001;
+  display: none;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-
 .backdrop-overlay {
-  display: none;  /* Hidden by default */
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);  /* Semi-transparent black */
-  backdrop-filter: blur(5px);  /* This creates the blur effect */
-  -webkit-backdrop-filter: blur(5px);  /* For Safari support */
-  z-index: 9998;  /* Just below the loader */
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
 }

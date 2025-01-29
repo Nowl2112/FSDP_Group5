@@ -15,6 +15,8 @@
       <a href="homepage.html">Home</a>
       <a href="dashboard.html">Dashboard</a>
       <a href="upload.html">Upload</a>
+      <a href="aipage.html">Solution</a>
+
     </div>
     
     
@@ -22,11 +24,15 @@
       <div class="sidebar">
         <h2>Test Cases</h2>
         <input type="text" id="search-bar" placeholder="Search by file name" />
+        <select id="category-filter">
+          <option value="all">All Categories</option>
+        </select>
         <select id="status-filter" class="status-filter">
           <option value="all">All Tests</option>
           <option value="passed">Passed Tests</option>
           <option value="failed">Failed Tests</option>
         </select>
+        
         <ul id="test-case-list"></ul>
       </div>
       <div class="content">
@@ -67,7 +73,6 @@
         </div>
       </div>
     </div>
-
     <div id="settings-modal" class="modal">
       <div class="modal-content">
         <h3>Settings for <span id="modal-test-case-name"></span></h3>
@@ -81,9 +86,21 @@
           <!-- Custom Category Option -->
           <div>
             <label for="category-input">Category:</label>
-            <input type="text" id="category-input" placeholder="Enter custom category" />
+            <!-- <input type="text" id="category-input" placeholder="Enter custom category" /> -->
+            <select id="category-input" class="status-filter">
+              <option value="" disabled selected>Select your category</option>
+              <option value="Unit Tests">Unit Tests</option>
+              <option value="Integration Tests">Integration Tests</option>
+              <option value="System Tests">System Tests</option>
+              <option value="Performance Tests">Performance Tests</option>
+              <option value="Stress Test">Stress Test</option>
+              <option value="Compatibility Tests">Compatibility Tests</option>
+
+
+            </select>
+      
           </div>
-    
+         
           <!-- Delete Option -->
           <button id="delete-btn">Delete</button>
     

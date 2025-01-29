@@ -1,7 +1,7 @@
 const express = require("express");
 const OpenAI = require('openai');
 require('dotenv').config();
-const apiKeyStore = process.env.API_KEY;
+const apiKeyStore = process.env.OPENAI_API_KEY;
 
 const openai = new OpenAI({ apiKey:apiKeyStore });
 const bodyParser = require("body-parser");

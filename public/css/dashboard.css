@@ -423,8 +423,12 @@ body {
 }
 
 /* Existing CSS remains the same until #test-case-list li */
-
 #test-case-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 5.5rem; /* Fixed height */
+  min-height: 5.5rem; /* Ensures consistent height */
   padding: 1rem;
   margin-bottom: 0.8rem;
   background-color: #f8f8f8;
@@ -432,10 +436,7 @@ body {
   cursor: pointer;
   transition: all 0.2s ease;
   border: 1px solid transparent;
-  position: relative; /* Added for absolute positioning of button */
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  overflow: hidden; /* Prevents content from breaking layout */
 }
 
 #test-case-list li:hover,
@@ -472,13 +473,17 @@ body {
   transform: scale(1.05);
 }
 
+.test-case-delete-btn,
+.comparison-checkbox {
+  flex-shrink: 0; /* Prevents shrinking */
+}
+
 /* Ensure the test case name doesn't overflow */
 .test-case-name {
-  flex: 1;
+  flex-grow: 1;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
-  margin-right: 8px;
 }
 
 .test-case-delete-btn svg {
@@ -686,11 +691,11 @@ body {
 @keyframes modalFadeIn {
   from {
     opacity: 0;
-    transform: translateY(-20px);
+    /* transform: translateY(-20px); */
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    /* transform: translateY(0); */
   }
 }
 
@@ -712,4 +717,212 @@ body {
 
 .modal-content::-webkit-scrollbar-thumb:hover {
   background: #999;
+}
+
+#category-filter {
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 0.8rem;
+  margin-bottom: 5%;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  width: 100%;
+}
+
+#category-filter:focus {
+  outline: none;
+  border-color: #e62845;
+  box-shadow: 0 0 0 3px rgba(230, 40, 69, 0.1);
+}
+
+#category-filter:hover {
+  border-color: #e62845;
+}
+#comparison-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 95%;
+  max-width: 1000px;
+  max-height: 90vh;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  padding: 1.5rem;
+  display: none;
+  animation: modalFadeIn 0.15s ease-out;
+  overflow: hidden;
+  /* position: relative; Added for absolute positioning of close button */
+}
+
+.comparison-content {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  max-height: calc(90vh - 100px);
+  overflow: auto;
+}
+
+.comparison-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+  position: relative;
+}
+
+.comparison-header h2 {
+  color: #333;
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+#close-comparison-btn {
+  position: absolute;
+  /* top: -0.5rem; */
+  right: -0.5rem;
+  background-color: #e62845;
+  color: white;
+  border: none;
+  border-radius: 10%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  /* padding:1rem; */
+  padding-left:1.5rem;
+  padding-right:1.5rem;
+}
+
+#close-comparison-btn:hover {
+  background-color: #d41f3a;
+  transform: scale(1.05);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.comparison-content {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.comparison-column {
+  flex: 1;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 1rem;
+  background-color: #f8f8f8;
+  overflow-y: auto;
+}
+
+.comparison-column h3 {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
+}
+
+.comparison-details p {
+  margin-bottom: 0.8rem;
+  color: #666;
+}
+
+.comparison-details p strong {
+  color: #333;
+  margin-right: 0.5rem;
+}
+
+.comparison-test-breakdown {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.comparison-test-breakdown th {
+  background-color: #f0f0f0;
+  color: #666;
+  font-weight: 600;
+  padding: 0.6rem;
+  text-align: left;
+  border-bottom: 2px solid #ddd;
+  white-space: nowrap;
+}
+
+.comparison-test-breakdown td {
+  padding: 0.6rem;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.comparison-test-breakdown tr:hover td {
+  background-color: #f1f1f1;
+}
+
+/* Status coloring for test cases */
+.comparison-test-breakdown tr[data-status="passed"] {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.comparison-test-breakdown tr[data-status="failed"] {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.comparison-test-breakdown tr[data-status="skipped"] {
+  background-color: #f3f4f6;
+  color: #4b5563;
+}
+
+.comparison-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  height: 20px;
+  width: 20px;
+  background-color: #fff;
+  border: 2px solid #e62845;
+  border-radius: 8px;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+  /* padding:2-%; */
+}
+
+.comparison-checkbox:checked {
+  background-color: #ffffff;
+}
+
+.comparison-checkbox:checked::after {
+  content: '✔';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #e62845;
+  font-size: 12px;
+}
+
+.comparison-checkbox:hover {
+  box-shadow: 0 0 0 3px rgba(230, 40, 69, 0.1);
+}
+
+.comparison-checkbox:focus {
+  outline: none;
+  border-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(230, 40, 69, 0.1);
 }
