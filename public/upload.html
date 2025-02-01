@@ -66,32 +66,40 @@
         </div>
       </div>
 
+      <!-- Schedule Test Section -->
+      <div class="schedule-box-container">
+        <h3>Schedule Test Execution (Optional):</h3>
+        <input type="datetime-local" id="scheduleTime" />
+        <button class="schedule-btn" id="scheduleTestBtn">Schedule Test</button>
+      </div>
+
       <!-- Test Button -->
       <button class="test-btn" id="test-btn">Test</button>
     </div>
-    <!-- Success Modal -->
-<div id="successModal" class="modal">
-  <div class="modal-content">
-    <h3>Upload Successful!</h3>
-    <p>Your file was successfully uploaded and tested.</p>
-    <div class="modal-buttons">
-      <button id="uploadMoreBtn">Upload More</button>
-      <button id="viewResultsBtn">View Results</button>
-    </div>
-  </div>
-</div>
 
-<div id="errorModal" class="modal">
-  <div class="modal-content">
-    <h3>Upload Error</h3>
-    <p id="errorMessage"></p>
-    <div class="modal-buttons">
-      <button id="errorTryAgainBtn">Try Again</button>
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+      <div class="modal-content">
+        <h3>Upload Successful!</h3>
+        <p>Your file was successfully uploaded and tested.</p>
+        <div class="modal-buttons">
+          <button id="uploadMoreBtn">Upload More</button>
+          <button id="viewResultsBtn">View Results</button>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="modal">
+      <div class="modal-content">
+        <h3>Upload Error</h3>
+        <p id="errorMessage"></p>
+        <div class="modal-buttons">
+          <button id="errorTryAgainBtn">Try Again</button>
+        </div>
+      </div>
+    </div>
 
     <script src="js/upload.js"></script>
   </body>
-
 </html>

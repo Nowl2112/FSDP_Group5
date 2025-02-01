@@ -1,10 +1,11 @@
 const express = require("express");
 const OpenAI = require('openai');
 const nodemailer = require("nodemailer");
-
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 require('dotenv').config();
 const apiKeyStore = process.env.OPENAI_API_KEY;
-
+const schedule = require('node-schedule');
 const openai = new OpenAI({ apiKey:apiKeyStore });
 const bodyParser = require("body-parser");
 const sql = require("mssql");
@@ -345,12 +346,78 @@ app.post("/api/generate-solution-file", async (req, res) => {
 });
 
 const sendTestResultsEmail = (userEmail, testResults) => {
+  // Create a more structured HTML template for the email
+  const htmlContent = `
+    <html>
+      <head>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+          }
+          .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          }
+          h1 {
+            color: #007BFF;
+            text-align: center;
+          }
+          .test-case {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+          }
+          .test-case h2 {
+            margin-top: 0;
+            color: #333;
+          }
+          .test-case p {
+            margin: 5px 0;
+          }
+          .status-pass {
+            color: #28a745;
+          }
+          .status-fail {
+            color: #dc3545;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <h1>Test Results</h1>
+          <p>Here are the results of your recent test execution:</p>
+          ${testResults.testcases
+            .map(
+              (testCase) => `
+            <div class="test-case">
+              <h2>${testCase.name}</h2>
+              <p><strong>Browser Type:</strong> ${testCase.browserType}</p>
+              <p><strong>Status:</strong> <span class="status-${testCase.status.toLowerCase()}">${testCase.status}</span></p>
+              <p><strong>Time:</strong> ${testCase.time} seconds</p>
+              ${testCase.message ? `<p><strong>Message:</strong> ${testCase.message}</p>` : ''}
+            </div>
+          `
+            )
+            .join('')}
+        </div>
+      </body>
+    </html>
+  `;
+
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: userEmail,
     subject: "Test Results",
-    text: `Your test results are ready:\n\n${JSON.stringify(testResults, null, 2)}`,
-    html: `<p>Your test results are ready:</p><pre>${JSON.stringify(testResults, null, 2)}</pre>`,
+    text: `Your test results are ready:\n\n${JSON.stringify(testResults, null, 2)}`, // Plain text fallback
+    html: htmlContent, // Enhanced HTML content
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
@@ -380,4 +447,85 @@ process.on("SIGINT", async () => {
   // await sql.close();
   mongoose.connection.close();
   process.exit(0);
+});
+
+//schedule
+
+
+app.post("/upload-schedule", (req, res) => {
+  const { content, name, userEmail, scheduleTime } = req.body; // Retrieve payload from request body
+
+  if (!content || !name || !userEmail || !scheduleTime) {
+    return res.status(400).json({ message: "Missing required fields." });
+  }
+
+  const fileName = name;
+  const fileContent = content;
+
+  const nameParts = fileName.split(".");
+  const pureFileName = nameParts[0];
+
+  const targetPath = path.join(
+    __dirname,
+    `src\\test\\java\\com\\example\\${fileName}`
+  );
+
+  // Step 1: Write the test file to disk
+  fs.writeFile(targetPath, fileContent, (err) => {
+    if (err) {
+      return res.status(500).json({ message: "Error writing file." });
+    }
+
+    // Step 2: Schedule the test execution
+    const job = schedule.scheduleJob(new Date(scheduleTime), () => {
+      console.log(`Running scheduled test for file: ${fileName} at ${scheduleTime}`);
+
+      // Step 3: Run the tests using Maven
+      exec("mvn test", (error, stdout, stderr) => {
+        const xmlfileName = `TEST-com.example.${pureFileName}`;
+
+        // Step 4: Parse the test results
+        utils.parseSurefireReports(__dirname, xmlfileName, (err, result) => {
+          if (err) {
+            console.error("Failed to parse test results:", err.message);
+            return;
+          }
+
+          // Step 5: Save the test results to MongoDB
+          const newTestCase = new TestCase({
+            userEmail: userEmail,
+            fileName: fileName,
+            category: "None",
+            testResults: result,
+            testcases: result.testcases.map((testCase) => ({
+              name: testCase.name,
+              browserType: testCase.browserType,
+              status: testCase.status,
+              time: testCase.time,
+              message: testCase.message || "",
+            })),
+          });
+
+          newTestCase
+            .save()
+            .then((savedTestCase) => {
+              console.log("Test results saved:", savedTestCase);
+              sendTestResultsEmail(userEmail, result);
+            })
+            .catch((err) => {
+              console.error("Error saving test results to database:", err);
+            });
+
+          // Step 6: Delete the test file after parsing and saving results
+          fs.unlink(targetPath, (err) => {
+            if (err) {
+              console.error("Error deleting file: ", err);
+            }
+          });
+        });
+      });
+    });
+
+    res.json({ message: `Test scheduled to run at ${scheduleTime}` });
+  });
 });
