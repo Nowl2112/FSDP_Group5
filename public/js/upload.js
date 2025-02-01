@@ -174,7 +174,6 @@ async function runTest(content, nameOfFile) {
     
     console.error(err);
   }
-}
 document.getElementById("scheduleTestBtn").addEventListener("click", async () => {
   const fileInput = document.getElementById("fileInput");
   const scheduleTime = document.getElementById("scheduleTime").value;
@@ -228,3 +227,8 @@ document.getElementById("scheduleTestBtn").addEventListener("click", async () =>
 
   reader.readAsText(file);
 });
+=======
+
+
+
+
