@@ -174,7 +174,61 @@ async function runTest(content, nameOfFile) {
     
     console.error(err);
   }
-}
+document.getElementById("scheduleTestBtn").addEventListener("click", async () => {
+  const fileInput = document.getElementById("fileInput");
+  const scheduleTime = document.getElementById("scheduleTime").value;
+  const userEmail = localStorage.getItem("email"); // Retrieve email from localStorage
+
+  if (!fileInput.files || fileInput.files.length === 0) {
+    alert("Please select a file to upload.");
+    return;
+  }
+
+  if (!scheduleTime) {
+    alert("Please select a scheduled time.");
+    return;
+  }
+
+  if (!userEmail) {
+    alert("User email is not available. Please log in again.");
+    return;
+  }
+
+  const file = fileInput.files[0];
+  const reader = new FileReader();
+
+  reader.onload = async function (event) {
+    const fileContent = event.target.result;
+    const fileName = file.name;
+
+    try {
+      const response = await fetch("/upload-schedule", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          content: fileContent,
+          name: fileName,
+          userEmail: userEmail,
+          scheduleTime: new Date(scheduleTime).toISOString(),
+        }),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        alert(`Test scheduled successfully for ${scheduleTime}`);
+      } else {
+        alert(`Error scheduling test: ${result.message}`);
+      }
+    } catch (error) {
+      console.error("Error scheduling test:", error);
+      alert("Failed to schedule test. Please try again.");
+    }
+  };
+
+  reader.readAsText(file);
+});
+=======
+
 
 
 

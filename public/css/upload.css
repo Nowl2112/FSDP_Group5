@@ -220,7 +220,42 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
+
+  background: rgba(0, 0, 0, 0.5);  /* Semi-transparent black */
+  backdrop-filter: blur(5px);  /* This creates the blur effect */
+  -webkit-backdrop-filter: blur(5px);  /* For Safari support */
+  z-index: 9998;  /* Just below the loader */
+}
+/* Schedule Test Section */
+.schedule-box-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+#scheduleTime {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.schedule-btn {
+  background-color: #ffffff; 
+  color: #000000;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.schedule-btn:hover {
+  background-color: #c0c0c0;
+=======
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
   z-index: 1000;
+
 }
