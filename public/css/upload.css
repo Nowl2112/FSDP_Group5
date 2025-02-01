@@ -1,3 +1,13 @@
+:root {
+  --primary-color: #e62845;
+  --secondary-color: #d41f3a;
+  --background-color: #f5f5f5;
+  --text-color: #333;
+  --border-radius: 8px;
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --transition-speed: 0.2s;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -5,18 +15,20 @@
 }
 
 body {
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background-color: #f5f5f5;
-  color: #333;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
 }
 
+/* Navbar */
 .navbar {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 1rem 2.5%;
   background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--box-shadow);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -30,56 +42,60 @@ body {
 .navbar a {
   margin: 0 20px;
   text-decoration: none;
-  color: #333;
+  color: var(--text-color);
   font-size: 1.1rem;
   font-weight: 500;
-  transition: color 0.2s ease;
+  transition: color var(--transition-speed) ease;
 }
 
 .navbar a:hover {
-  color: #e62845;
+  color: var(--primary-color);
 }
 
+/* Main Content */
 .content {
   padding: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #f5f5f5;
+  background-color: var(--background-color);
   padding-top: 4rem;
 }
 
 .content h2 {
-  color: #333;
+  color: var(--text-color);
   margin-bottom: 1.5rem;
   font-size: 1.8rem;
+  font-weight: 700;
 }
 
+/* Upload Box */
 .upload-box-container {
   background-color: white;
   padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
   width: 100%;
   max-width: 600px;
 }
 
 .upload-box {
   padding: 1.5rem;
-  border: 2px dashed #e62845;
-  border-radius: 8px;
+  border: 2px dashed var(--primary-color);
+  border-radius: var(--border-radius);
   text-align: center;
-  transition: border-color 0.2s ease;
+  transition: border-color var(--transition-speed) ease, background-color var(--transition-speed) ease;
 }
 
 .upload-box:hover {
-  border-color: #d41f3a;
+  border-color: var(--secondary-color);
+  background-color: rgba(230, 40, 69, 0.05);
 }
 
 .upload-box .upload-icon {
-  margin-bottom: 1.5rem;
-  font-size: 2.5rem;
-  color: #e62845;
+  margin-bottom: 1rem;
+  font-size: 3.5rem;
+  color: var(--primary-color);
 }
 
 .upload-box p {
@@ -90,41 +106,74 @@ body {
 
 .upload-btn {
   padding: 0.8rem 1.5rem;
-  background-color: #e62845;
+  background-color: var(--primary-color);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   font-size: 0.95rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-speed) ease;
 }
 
 .upload-btn:hover {
-  background-color: #d41f3a;
+  background-color: var(--secondary-color);
   transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--box-shadow);
 }
 
 .test-btn {
   padding: 0.8rem 1.5rem;
   background-color: white;
-  color: #333;
+  color: var(--text-color);
   border: none;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   font-size: 0.95rem;
   font-weight: 500;
   cursor: pointer;
   margin-top: 1.5rem;
-  transition: all 0.2s ease;
+  transition: all var(--transition-speed) ease;
 }
 
 .test-btn:hover {
-  background-color: #f5f5f5;
+  background-color: var(--background-color);
   transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--box-shadow);
 }
 
+/* Schedule Test Section */
+.schedule-box-container {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+#scheduleTime {
+  width: 100%;
+  max-width: 300px;
+  padding: 0.8rem;
+  margin: 1rem 0;
+  border: 1px solid #ccc;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+}
+
+.schedule-btn {
+  background-color: white;
+  color: var(--text-color);
+  padding: 0.8rem 1.5rem;
+  border: 1px solid #ccc;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all var(--transition-speed) ease;
+}
+
+.schedule-btn:hover {
+  background-color: var(--background-color);
+  border-color: var(--primary-color);
+}
+
+/* Modals */
 .modal {
   display: none;
   position: fixed;
@@ -141,16 +190,15 @@ body {
 .modal-content {
   background-color: white;
   padding: 1.5rem;
-  border-radius: 12px;
+  border-radius: var(--border-radius);
   width: 85%;
   max-width: 350px;
-  max-height:25%;
+  max-height: 30%;
   position: relative;
   margin: 15vh auto;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   animation: modalFadeIn 0.3s ease-out;
 }
-
 
 @keyframes modalFadeIn {
   from {
@@ -162,57 +210,66 @@ body {
     transform: translateY(0);
   }
 }
+
 .modal-content h3 {
-  color: #333;
+  color: var(--text-color);
   margin-bottom: 1rem;
   font-size: 1.5rem;
 }
+
 .modal-buttons button {
   padding: 0.7rem 1.3rem;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   font-size: 0.95rem;
   font-weight: 500;
   border: none;
   cursor: pointer;
   margin: 0.5rem;
-  transition: all 0.2s ease;
+  transition: all var(--transition-speed) ease;
 }
 
-#uploadMoreBtn, #errorTryAgainBtn {
-  background-color: #e62845;
+#uploadMoreBtn,
+#errorTryAgainBtn {
+  background-color: var(--primary-color);
   color: white;
 }
 
 #viewResultsBtn {
-  background-color: #d41f3a;
+  background-color: var(--secondary-color);
   color: white;
 }
 
 .modal-buttons button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--box-shadow);
 }
 
+/* Loader */
 #loader {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  border: 8px solid #f5f5f5;
+  border: 8px solid var(--background-color);
+  border-top: 8px solid var(--primary-color);
   border-radius: 50%;
-  border-top: 8px solid #e62845;
   width: 60px;
   height: 60px;
   animation: spin 1s linear infinite;
-  z-index: 1001;
+  z-index: 10001;
   display: none;
 }
 
 @keyframes spin {
-  0% { transform: translate(-50%, -50%) rotate(0deg); }
-  100% { transform: translate(-50%, -50%) rotate(360deg); }
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
 
+/* Backdrop Overlay */
 .backdrop-overlay {
   display: none;
   position: fixed;
@@ -220,42 +277,34 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-
-  background: rgba(0, 0, 0, 0.5);  /* Semi-transparent black */
-  backdrop-filter: blur(5px);  /* This creates the blur effect */
-  -webkit-backdrop-filter: blur(5px);  /* For Safari support */
-  z-index: 9998;  /* Just below the loader */
-}
-/* Schedule Test Section */
-.schedule-box-container {
-  margin-top: 20px;
-  text-align: center;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  z-index: 9998;
 }
 
-#scheduleTime {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
+.file-input {
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
 }
 
-.schedule-btn {
-  background-color: #ffffff; 
-  color: #000000;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    padding: 1rem;
+  }
 
-.schedule-btn:hover {
-  background-color: #c0c0c0;
-=======
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
-  z-index: 1000;
+  .navbar a {
+    margin: 10px 0;
+  }
 
+  .upload-box-container {
+    width: 90%;
+  }
+
+  .modal-content {
+    width: 90%;
+  }
 }

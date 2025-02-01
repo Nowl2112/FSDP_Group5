@@ -29,8 +29,8 @@ const port = 3000;
 const transporter = nodemailer.createTransport({
   service: "gmail", // Use your email service
   auth: {
-    user: '', // Your email address
-    pass: '', // Your email password or app-specific password
+    user: process.env.EMAIL_USER, // Your email address
+    pass: process.env.EMAIL_PASSWORD, // Your email password or app-specific password
   },
 });
 app.use(bodyParser.json());
