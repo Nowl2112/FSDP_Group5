@@ -1,34 +1,3 @@
-// setTimeout(function() {
-//   document.getElementById('loader').style.display = 'none';
-// }, 100000);
-
-//Handle running test
-// async function runTest(content, nameOfFile) {
-//   try {
-//     const userEmail = localStorage.getItem("email"); // Retrieve the email from localStorage
-
-//     // Check if email exists in localStorage
-//     if (!userEmail) {
-//       console.error("User email is not available in localStorage");
-//       return;
-//     }
-
-//     const response = await fetch("/upload", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({
-//         content: content,
-//         name: nameOfFile,
-//         userEmail: userEmail,
-//       }), // Include userEmail
-//     });
-
-//     const result = await response.json();
-//     console.log(result);
-//   } catch (err) {
-//     console.error(err);
-//   }
-// }
 
 const dropZone = document.getElementById("dropZone");
 const fileInput = document.getElementById("fileInput");
@@ -174,6 +143,7 @@ async function runTest(content, nameOfFile) {
     
     console.error(err);
   }
+}
 document.getElementById("scheduleTestBtn").addEventListener("click", async () => {
   const fileInput = document.getElementById("fileInput");
   const scheduleTime = document.getElementById("scheduleTime").value;
@@ -227,8 +197,3 @@ document.getElementById("scheduleTestBtn").addEventListener("click", async () =>
 
   reader.readAsText(file);
 });
-=======
-
-
-
-
