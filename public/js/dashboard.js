@@ -920,7 +920,7 @@ function showTestCasePopup(testCaseResult) {
 function displayTestCases(filteredCases) {
   const testCaseList = document.getElementById("test-case-list");
   testCaseList.innerHTML = "";
-
+  
   const searchBar = document.getElementById("search-bar");
   // console.log(searchBar.value);
   if(currentCategory == "all" && currentFilter == "all" && searchBar.value == "")
@@ -983,11 +983,22 @@ function displayTestCases(filteredCases) {
       
       displayTestCaseDetails(testCase);
     };
+    const comparisonCheckbox = document.createElement("input");
+    comparisonCheckbox.type = "checkbox";
+    comparisonCheckbox.className = "comparison-checkbox";
+    comparisonCheckbox.style.display = "none";
+    comparisonCheckbox.addEventListener("change", (e) => {
+      e.stopPropagation();
+      handleTestCaseComparisonSelection(testCase, comparisonCheckbox.checked);
+    });
+
 
     // Append elements to list item
     listItem.appendChild(nameSpan);
-    listItem.appendChild(settingButton);
+    listItem.appendChild(comparisonCheckbox);
 
+    listItem.appendChild(settingButton);
+    
     testCaseList.appendChild(listItem);
   });
 }
