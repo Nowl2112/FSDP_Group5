@@ -33,6 +33,7 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASSWORD, // Your email password or app-specific password
   },
 });
+const DailyTest = require("./models/dailyTest"); // You'll need to create this model
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
@@ -60,15 +61,131 @@ app.post("/run-tests", (req, res) => {
     });
   });
 });
-// app.delete("/test-cases", async (req, res) => {
-//   try {
-//     const result = await TestCase.deleteMany({});
-//     res.status(200).json({ message: "All test cases deleted successfully", deletedCount: result.deletedCount });
-//   } catch (error) {
-//     console.error("Error deleting test cases:", error);
-//     res.status(500).json({ message: "Error deleting test cases", error });
-//   }
-// });
+app.post("/schedule-daily-test", async (req, res) => {
+  const { content, name, userEmail, scheduleTime } = req.body;
+  if (!content || !name || !userEmail || !scheduleTime) {
+    return res.status(400).json({ message: "Missing required fields." });
+  }
+
+  try {
+    // Save the daily test configuration to database
+    const dailyTest = new DailyTest({
+      userEmail,
+      fileName: name,
+      fileContent: content,
+      scheduleTime : scheduleTime, // Time of day to run (HH:mm format)
+      isActive: true
+    });
+
+    await dailyTest.save();
+
+    // Schedule the daily job
+    const [hours, minutes] = scheduleTime.split(':');
+    const rule = new schedule.RecurrenceRule();
+    rule.hour = parseInt(hours);
+    rule.minute = parseInt(minutes);
+
+    const job = schedule.scheduleJob(rule, async () => {
+      console.log(`Running daily test for file: ${name} at ${scheduleTime}`);
+    // const job = schedule.scheduleJob('*/2 * * * *', async () => {
+      // console.log(`Running test for file: ${name} - Testing mode every 2 minutes`);
+      
+      const targetPath = path.join(
+        __dirname,
+        `src\\test\\java\\com\\example\\${name}`
+      );
+
+      // Write the test file
+      await fs.promises.writeFile(targetPath, content);
+
+      // Run the test
+      exec("mvn test", async (error, stdout, stderr) => {
+        const pureFileName = name.split('.')[0];
+        const xmlfileName = `TEST-com.example.${pureFileName}`;
+
+        utils.parseSurefireReports(__dirname, xmlfileName, async (err, result) => {
+          if (err) {
+            console.error("Failed to parse test results:", err.message);
+            return;
+          }
+
+          // Save test results
+          const newTestCase = new TestCase({
+            userEmail,
+            fileName: name,
+            category: "Daily Test",
+            testResults: result,
+            testcases: result.testcases.map((testCase) => ({
+              name: testCase.name,
+              browserType: testCase.browserType,
+              status: testCase.status,
+              time: testCase.time,
+              message: testCase.message || "",
+            })),
+          });
+
+          await newTestCase.save();
+          sendTestResultsEmail(userEmail, result);
+
+          // Clean up test file
+          await fs.promises.unlink(targetPath);
+        });
+      });
+    });
+
+    // Store job in memory (optional)
+    global.scheduledJobs = global.scheduledJobs || {};
+    global.scheduledJobs[dailyTest._id] = job;
+
+    res.json({ 
+      message: `Daily test scheduled successfully for ${scheduleTime}`,
+      id: dailyTest._id 
+    });
+  } catch (error) {
+    console.error("Error scheduling daily test:", error);
+    res.status(500).json({ message: "Error scheduling daily test" });
+  }
+});
+
+// Endpoint to get all daily tests for a user
+app.get("/daily-tests/:userEmail", async (req, res) => {
+  try {
+    const dailyTests = await DailyTest.find({ 
+      userEmail: req.params.userEmail,
+      isActive: true 
+    });
+    res.json(dailyTests);
+  } catch (error) {
+    res.status(500).json({ message: "Error retrieving daily tests" });
+  }
+});
+
+// Endpoint to delete/deactivate a daily test
+app.delete("/daily-tests/:id", async (req, res) => {
+  try {
+    const dailyTest = await DailyTest.findById(req.params.id);
+    if (!dailyTest) {
+      return res.status(404).json({ message: "Daily test not found" });
+    }
+
+    // Cancel the scheduled job
+    // const job = global.scheduledJobs[req.params.id];
+    // if (job) {
+    //   job.cancel();
+    //   delete global.scheduledJobs[req.params.id];
+    // }
+
+    // Soft delete by marking as inactive
+    dailyTest.isActive = false;
+    await dailyTest.save();
+
+    res.json({ message: "Daily test cancelled successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error});
+  }
+});
+
 
 app.post("/upload", (req, res) => {
   const fileContent = req.body.content;
@@ -454,7 +571,7 @@ process.on("SIGINT", async () => {
 
 app.post("/upload-schedule", (req, res) => {
   const { content, name, userEmail, scheduleTime } = req.body; // Retrieve payload from request body
-
+  
   if (!content || !name || !userEmail || !scheduleTime) {
     return res.status(400).json({ message: "Missing required fields." });
   }

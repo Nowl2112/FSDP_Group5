@@ -69,12 +69,48 @@
       </div>
 
       <!-- Schedule Test Section -->
-      <div class="schedule-box-container">
+      <!-- <div class="schedule-box-container">
         <h3>Schedule Test Execution (Optional):</h3>
         <input type="datetime-local" id="scheduleTime" />
         <button class="schedule-btn" id="scheduleTestBtn">Schedule Test</button>
       </div>
 
+      <div class="form-group">
+        <label for="dailyExecutionTime">Daily Test Time:</label>
+        <input type="time" id="dailyExecutionTime" required>
+        <button id="scheduleDailyTestBtn">Schedule Daily Test</button>
+      </div>
+      
+      <div id="dailyTestsList" class="daily-tests-container">
+      </div> -->
+      <!-- Replace your existing schedule buttons and inputs with this -->
+      <div class="schedule-container">
+        <div class="schedule-toggle">
+          <label class="switch">
+            <input type="checkbox" id="scheduleTypeToggle">
+            <span class="slider"></span>
+          </label>
+          <span class="toggle-label">
+            <span id="oneTimeLabel" class="active-option">One-time</span> / 
+            <span id="dailyLabel">Daily</span>
+          </span>
+        </div>
+      
+        <div id="oneTimeScheduleFields" class="schedule-fields">
+          <label for="oneTimeSchedule">Schedule Date and Time:</label>
+          <input type="datetime-local" id="oneTimeSchedule">
+        </div>
+      
+        <div id="dailyScheduleFields" class="schedule-fields" style="display: none;">
+          <label for="dailyExecutionTime">Daily Execution Time:</label>
+          <input type="time" id="dailyExecutionTime">
+        </div>
+
+        <!-- Add this inside your schedule-container div, after the dailyScheduleFields -->
+<button class="schedule-btn" id="scheduleTestBtn">Schedule Test</button>
+      </div>
+      <!-- Add this after your schedule-container div -->
+<div id="dailyTestsList" class="daily-tests-container" style="display: none;"></div>
       <!-- Test Button -->
       <button class="test-btn" id="test-btn">Test</button>
     </div>
