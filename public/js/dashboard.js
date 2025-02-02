@@ -343,7 +343,7 @@ function displayOverallStatsDetails(overallStats) {
 
   // Calculate overall statistics
   const totalTests = overallStats.testResults.tests;
-  const passingRate = totalTests - overallStats.testResults.failures;
+  const passingRate = (totalTests - overallStats.testResults.failures);
   const failCount = overallStats.testResults.failures;
   const errorCount = overallStats.testResults.skipped;
   const skipCount = overallStats.testResults.testcases.filter(tc => 
@@ -352,7 +352,7 @@ function displayOverallStatsDetails(overallStats) {
   const totalTime = overallStats.testResults.testcases.reduce((sum, tc) => sum + Number(tc.time), 0);
 
   test_case_amount_text.textContent = totalTests;
-  passing_rate_text.textContent = passingRate.toFixed(1)+"%";
+  passing_rate_text.textContent = ((passingRate/totalTests)*100).toFixed(1)+"%";
   avg_time_text.textContent = (totalTime / totalTests).toFixed(2)+"s";
 
   // Update or create the status distribution chart
