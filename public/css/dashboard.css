@@ -926,3 +926,6 @@ body {
   border-color: #ffffff;
   box-shadow: 0 0 0 3px rgba(230, 40, 69, 0.1);
 }
+.test-case-table td:nth-child(4){
+  width: 40vw;
+}
